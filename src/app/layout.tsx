@@ -94,7 +94,7 @@ export default function RootLayout({
           <CartProvider>
             {children}
             <FloatingSocial
-              facebookHref="https://facebook.com/autotrade"
+              facebookHref="https://www.facebook.com/autoprimecartrading/"
               chatHref="#"
               telegramHref="https://t.me/autotrade"
               email="info@autotrade.com"

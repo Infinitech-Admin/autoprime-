@@ -4,8 +4,7 @@ import Link from "next/link";
 import { Mail, MessageCircle, Phone, Send } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-const FACEBOOK_URL =
-  "https://www.facebook.com/people/Mikmiks-Garahe/100083373601114/";
+const FACEBOOK_URL = "https://www.facebook.com/autoprimecartrading/";
 
 const focusRing =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E11D2E]";
