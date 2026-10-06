@@ -165,7 +165,7 @@ export default function ShowcaseSection() {
 
         {/* Loading */}
         {isLoading && (
-          <div className="mx-auto mt-16 flex h-[330px] max-w-4xl flex-col items-center justify-center text-center sm:h-[430px] lg:h-[520px]">
+          <div className="mx-auto mt-16 flex h-[360px] max-w-4xl flex-col items-center justify-center text-center sm:h-[480px] lg:h-[620px]">
             <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[#E11D2E]/30 bg-[#E11D2E]/10">
               <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#E11D2E]/40 border-t-[#E11D2E]" />
             </div>
@@ -212,7 +212,7 @@ export default function ShowcaseSection() {
                   type="button"
                   onClick={goPrevious}
                   aria-label="Previous vehicle"
-                  className="absolute left-1 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:border-[#E11D2E] hover:bg-[#E11D2E] hover:text-black sm:left-5 sm:h-12 sm:w-12 lg:left-10"
+                  className="absolute left-1 top-1/2 z-50 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:border-[#E11D2E] hover:bg-[#E11D2E] hover:text-black sm:left-5 sm:h-12 sm:w-12 lg:left-10"
                 >
                   <ArrowLeft size={19} />
                 </button>
@@ -221,14 +221,14 @@ export default function ShowcaseSection() {
                   type="button"
                   onClick={goNext}
                   aria-label="Next vehicle"
-                  className="absolute right-1 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:border-[#E11D2E] hover:bg-[#E11D2E] hover:text-black sm:right-5 sm:h-12 sm:w-12 lg:right-10"
+                  className="absolute right-1 top-1/2 z-50 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:border-[#E11D2E] hover:bg-[#E11D2E] hover:text-black sm:right-5 sm:h-12 sm:w-12 lg:right-10"
                 >
                   <ArrowRight size={19} />
                 </button>
               </>
             )}
 
-            <div className="relative mx-auto h-[330px] max-w-[1500px] sm:h-[430px] lg:h-[520px]">
+            <div className="relative mx-auto h-[360px] max-w-[1500px] sm:h-[480px] lg:h-[620px]">
               {cars.map((car, index) => {
                 const position = getPosition(index);
 
@@ -240,7 +240,7 @@ export default function ShowcaseSection() {
 
                 if (isCenter) {
                   positionClass =
-                    "left-1/2 w-[92%] translate-x-[-50%] scale-100 opacity-100 blur-0 z-30 sm:w-[72%] lg:w-[65%]";
+                    "left-1/2 w-[96%] translate-x-[-50%] scale-100 opacity-100 blur-0 z-30 sm:w-[80%] lg:w-[72%]";
                 } else if (isLeft) {
                   positionClass =
                     "left-[-18%] w-[58%] translate-x-0 scale-[0.72] opacity-25 blur-[2px] z-10 sm:left-[-12%] sm:w-[55%] sm:scale-[0.78] lg:left-[-8%] lg:w-[48%]";
@@ -271,7 +271,7 @@ export default function ShowcaseSection() {
                         unoptimized
                         className={`relative z-10 object-contain transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                           isCenter
-                            ? "drop-shadow-[0_40px_40px_rgba(0,0,0,0.85)]"
+                            ? "scale-125 drop-shadow-[0_40px_40px_rgba(0,0,0,0.85)]"
                             : "drop-shadow-[0_20px_25px_rgba(0,0,0,0.5)]"
                         }`}
                       />
@@ -284,7 +284,7 @@ export default function ShowcaseSection() {
             {/* Car Details */}
             <div
               key={`${activeCar.id}-${direction}`}
-              className={`relative z-40 mx-auto mt-4 max-w-4xl text-center ${
+              className={`relative z-40 mx-auto mt-8 max-w-4xl text-center ${
                 direction === "next"
                   ? "animate-[showcaseDetailsNext_500ms_ease-out]"
                   : "animate-[showcaseDetailsPrev_500ms_ease-out]"
