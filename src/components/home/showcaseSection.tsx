@@ -255,9 +255,9 @@ export default function ShowcaseSection() {
                 return (
                   <div
                     key={car.id}
-                    className={`absolute top-1/2 -translate-y-1/2 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${positionClass}`}
+                    className={`absolute top-1/2 h-full -translate-y-1/2 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${positionClass}`}
                   >
-                    <div className="relative">
+                    <div className="relative h-full w-full">
                       {/* Floor reflection/glow */}
                       {isCenter && (
                         <div className="absolute bottom-[4%] left-1/2 h-16 w-[65%] -translate-x-1/2 rounded-full bg-[#E11D2E]/20 blur-3xl transition-opacity duration-700" />
@@ -266,11 +266,10 @@ export default function ShowcaseSection() {
                       <Image
                         src={car.image}
                         alt={car.name}
-                        width={1200}
-                        height={700}
+                        fill
                         priority={isCenter}
                         unoptimized
-                        className={`relative z-10 h-auto w-full object-contain transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        className={`relative z-10 object-contain transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                           isCenter
                             ? "drop-shadow-[0_40px_40px_rgba(0,0,0,0.85)]"
                             : "drop-shadow-[0_20px_25px_rgba(0,0,0,0.5)]"
@@ -285,7 +284,7 @@ export default function ShowcaseSection() {
             {/* Car Details */}
             <div
               key={`${activeCar.id}-${direction}`}
-              className={`relative z-40 mx-auto mt-2 max-w-4xl text-center sm:-mt-4 ${
+              className={`relative z-40 mx-auto mt-4 max-w-4xl text-center ${
                 direction === "next"
                   ? "animate-[showcaseDetailsNext_500ms_ease-out]"
                   : "animate-[showcaseDetailsPrev_500ms_ease-out]"
