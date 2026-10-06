@@ -166,247 +166,257 @@ export default function RegisterPage() {
     }
   }
 
+  const inputClass =
+    "w-full rounded-lg border border-zinc-800 bg-black py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-600 outline-none transition-colors focus:border-red-600 focus:ring-2 focus:ring-red-600/30";
+
+  const labelClass = "mb-1.5 block text-sm font-medium text-zinc-300";
+
+  const iconClass =
+    "pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500";
+
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-b from-[#0d0d0d] via-[#22293a] to-[#0a0a0a] px-4 py-16">
-      <div className="pointer-events-none absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full bg-[#FFFFFF]/15 blur-[130px]" />
-      <div className="pointer-events-none absolute top-1/3 right-[-120px] h-[380px] w-[380px] rounded-full bg-[#E11D2E]/20 blur-[130px]" />
+    <main className="relative flex min-h-screen overflow-hidden bg-black">
+      {/* The one bold moment: a red racing stripe cutting across the page */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(90deg, #fff 0 40px, transparent 40px 90px)",
-          maskImage: "linear-gradient(to top, black, transparent)",
-        }}
+        aria-hidden
+        className="pointer-events-none absolute -left-1/4 top-0 h-full w-[60%] -skew-x-12 bg-gradient-to-br from-red-700 via-red-600 to-red-950 lg:left-[-8%] lg:w-[48%]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-1/4 top-0 hidden h-full w-[3px] -skew-x-12 bg-red-500 lg:left-[40%] lg:block"
       />
 
-      <div className="relative z-10 w-full max-w-md">
-        <div className="mb-8 text-center">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-2xl font-black text-white"
-          >
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E11D2E]/15 text-[#E11D2E]">
-              <Car size={20} />
-            </span>
-            Auto<span className="text-[#E11D2E]">Trade</span>
-          </Link>
-          <p className="mt-2 text-sm text-zinc-400">Create your account</p>
-        </div>
-
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-          className="rounded-2xl border border-white/10 bg-[#111111]/70 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-8"
+      {/* Brand panel (desktop) */}
+      <section className="relative z-10 hidden w-1/2 flex-col justify-between p-12 lg:flex">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
-          <div className="mb-6 h-1 w-14 rounded-full bg-gradient-to-r from-[#E11D2E] to-[#FF3344]" />
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-black text-red-500">
+            <Car size={20} />
+          </span>
+          <span className="text-xl font-black tracking-tight">AutoPrime</span>
+        </Link>
 
-          {formError && (
-            <div className="mb-5 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
-              {formError}
-            </div>
-          )}
-
-          {/* Name */}
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-400"
-            >
-              Full name
-            </label>
-            <div className="relative">
-              <User
-                size={17}
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500"
-              />
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                value={form.name}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-white/10 bg-[#0a0a0a]/60 py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-[#E11D2E]/60"
-                placeholder="Juan Dela Cruz"
-              />
-            </div>
-            {errors.name && (
-              <p className="mt-1.5 text-xs text-red-400">{errors.name}</p>
-            )}
-          </div>
-
-          {/* Phone */}
-          <div className="mb-4">
-            <label
-              htmlFor="phone"
-              className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-400"
-            >
-              Phone{" "}
-              <span className="normal-case text-zinc-600">(optional)</span>
-            </label>
-            <div className="relative">
-              <Phone
-                size={17}
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500"
-              />
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel"
-                maxLength={11}
-                pattern="09\d{9}"
-                value={form.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="w-full rounded-xl border border-white/10 bg-[#0a0a0a]/60 py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-[#E11D2E]/60"
-                placeholder="09171234567"
-              />
-            </div>
-            {errors.phone && (
-              <p className="mt-1.5 text-xs text-red-400">{errors.phone}</p>
-            )}
-          </div>
-
-          {/* Email */}
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-400"
-            >
-              Email
-            </label>
-            <div className="relative">
-              <Mail
-                size={17}
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500"
-              />
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={form.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="w-full rounded-xl border border-white/10 bg-[#0a0a0a]/60 py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-[#E11D2E]/60"
-                placeholder="you@example.com"
-              />
-            </div>
-            {errors.email && (
-              <p className="mt-1.5 text-xs text-red-400">{errors.email}</p>
-            )}
-          </div>
-
-          {/* Password */}
-          <div className="mb-3">
-            <label
-              htmlFor="password"
-              className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-400"
-            >
-              Password
-            </label>
-            <div className="relative">
-              <Lock
-                size={17}
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500"
-              />
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="new-password"
-                required
-                value={form.password}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-white/10 bg-[#0a0a0a]/60 py-3 pl-10 pr-11 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-[#E11D2E]/60"
-                placeholder="••••••••"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 transition-colors hover:text-zinc-300"
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
-              </button>
-            </div>
-            {errors.password && (
-              <p className="mt-1.5 text-xs text-red-400">{errors.password}</p>
-            )}
-
-            {form.password.length > 0 && (
-              <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
-                <RuleItem met={rules.length}>10+ characters</RuleItem>
-                <RuleItem met={rules.upper && rules.lower}>
-                  Upper &amp; lowercase
-                </RuleItem>
-                <RuleItem met={rules.number}>A number</RuleItem>
-                <RuleItem met={rules.symbol}>A symbol</RuleItem>
-              </ul>
-            )}
-          </div>
-
-          {/* Confirm password */}
-          <div className="mb-6">
-            <label
-              htmlFor="password_confirmation"
-              className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-400"
-            >
-              Confirm password
-            </label>
-            <div className="relative">
-              <Lock
-                size={17}
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500"
-              />
-              <input
-                id="password_confirmation"
-                name="password_confirmation"
-                type={showPassword ? "text" : "password"}
-                autoComplete="new-password"
-                required
-                value={form.password_confirmation}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-white/10 bg-[#0a0a0a]/60 py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-[#E11D2E]/60"
-                placeholder="••••••••"
-              />
-            </div>
-            {form.password_confirmation.length > 0 && !passwordsMatch && (
-              <p className="mt-1.5 text-xs text-red-400">
-                Passwords do not match.
-              </p>
-            )}
-            {errors.password_confirmation && (
-              <p className="mt-1.5 text-xs text-red-400">
-                {errors.password_confirmation}
-              </p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#E11D2E] to-[#FF3344] py-3.5 text-sm font-bold text-white transition-all duration-300 hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading && <Loader2 size={16} className="animate-spin" />}
-            {loading ? "Creating account..." : "Create Account"}
-          </button>
-
-          <p className="mt-6 text-center text-sm text-zinc-400">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="font-semibold text-[#E11D2E] hover:text-[#FF3344]"
-            >
-              Sign in
-            </Link>
+        <div className="max-w-sm">
+          <h2 className="text-5xl font-black leading-[1.05] tracking-tight text-white">
+            Start your engine.
+          </h2>
+          <p className="mt-4 text-base text-red-100/90">
+            Create an account to save listings, track offers and sell or trade
+            in your car.
           </p>
-        </form>
-      </div>
+        </div>
+      </section>
+
+      {/* Form panel */}
+      <section className="relative z-10 flex w-full items-center justify-center px-4 py-16 lg:w-1/2">
+        <div className="w-full max-w-md">
+          {/* Brand (mobile) */}
+          <div className="mb-8 text-center lg:hidden">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-2xl font-black tracking-tight text-white"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-600/15 text-red-500">
+                <Car size={20} />
+              </span>
+              AutoPrime
+            </Link>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className="rounded-2xl border border-zinc-800 bg-black p-6 shadow-[0_0_0_1px_rgba(220,38,38,0.15),0_30px_80px_rgba(220,38,38,0.18)] sm:p-8"
+          >
+            <h1 className="mb-1 text-2xl font-bold text-white">
+              Create your account
+            </h1>
+            <p className="mb-6 text-sm text-zinc-400">
+              Join AutoPrime in a few quick steps.
+            </p>
+
+            {formError && (
+              <div
+                role="alert"
+                className="mb-5 rounded-lg border border-red-600/40 bg-red-600/10 px-4 py-3 text-sm text-red-300"
+              >
+                {formError}
+              </div>
+            )}
+
+            {/* Name */}
+            <div className="mb-4">
+              <label htmlFor="name" className={labelClass}>
+                Full name
+              </label>
+              <div className="relative">
+                <User size={17} className={iconClass} />
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  value={form.name}
+                  onChange={handleChange}
+                  className={inputClass}
+                  placeholder="Juan Dela Cruz"
+                />
+              </div>
+              {errors.name && (
+                <p className="mt-1.5 text-xs text-red-400">{errors.name}</p>
+              )}
+            </div>
+
+            {/* Phone */}
+            <div className="mb-4">
+              <label htmlFor="phone" className={labelClass}>
+                Phone <span className="text-zinc-600">(optional)</span>
+              </label>
+              <div className="relative">
+                <Phone size={17} className={iconClass} />
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  inputMode="numeric"
+                  autoComplete="tel"
+                  maxLength={11}
+                  pattern="09\d{9}"
+                  value={form.phone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={inputClass}
+                  placeholder="09171234567"
+                />
+              </div>
+              {errors.phone && (
+                <p className="mt-1.5 text-xs text-red-400">{errors.phone}</p>
+              )}
+            </div>
+
+            {/* Email */}
+            <div className="mb-4">
+              <label htmlFor="email" className={labelClass}>
+                Email
+              </label>
+              <div className="relative">
+                <Mail size={17} className={iconClass} />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={inputClass}
+                  placeholder="you@example.com"
+                />
+              </div>
+              {errors.email && (
+                <p className="mt-1.5 text-xs text-red-400">{errors.email}</p>
+              )}
+            </div>
+
+            {/* Password */}
+            <div className="mb-3">
+              <label htmlFor="password" className={labelClass}>
+                Password
+              </label>
+              <div className="relative">
+                <Lock size={17} className={iconClass} />
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  required
+                  value={form.password}
+                  onChange={handleChange}
+                  className={`${inputClass} pr-11`}
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="mt-1.5 text-xs text-red-400">{errors.password}</p>
+              )}
+
+              {form.password.length > 0 && (
+                <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                  <RuleItem met={rules.length}>10+ characters</RuleItem>
+                  <RuleItem met={rules.upper && rules.lower}>
+                    Upper &amp; lowercase
+                  </RuleItem>
+                  <RuleItem met={rules.number}>A number</RuleItem>
+                  <RuleItem met={rules.symbol}>A symbol</RuleItem>
+                </ul>
+              )}
+            </div>
+
+            {/* Confirm password */}
+            <div className="mb-6">
+              <label htmlFor="password_confirmation" className={labelClass}>
+                Confirm password
+              </label>
+              <div className="relative">
+                <Lock size={17} className={iconClass} />
+                <input
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  required
+                  value={form.password_confirmation}
+                  onChange={handleChange}
+                  className={inputClass}
+                  placeholder="••••••••"
+                />
+              </div>
+              {form.password_confirmation.length > 0 && !passwordsMatch && (
+                <p className="mt-1.5 text-xs text-red-400">
+                  Passwords do not match.
+                </p>
+              )}
+              {errors.password_confirmation && (
+                <p className="mt-1.5 text-xs text-red-400">
+                  {errors.password_confirmation}
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-600 py-3.5 text-sm font-bold text-white transition-colors hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading && <Loader2 size={16} className="animate-spin" />}
+              {loading ? "Creating account..." : "Create Account"}
+            </button>
+
+            <p className="mt-6 text-center text-sm text-zinc-400">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="font-semibold text-red-500 hover:text-red-400"
+              >
+                Sign in
+              </Link>
+            </p>
+          </form>
+        </div>
+      </section>
     </main>
   );
 }
