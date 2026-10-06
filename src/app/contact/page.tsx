@@ -18,13 +18,14 @@ import Footer from "../../components/layout/footer";
 
 // ---------------------------------------------------------------------------
 // Business details
-// Verified from the public Facebook page: address and Facebook URL.
+// Address is from public dealer listings (Zigwheels). Please double-check it.
 // TODO: fill in PHONE, EMAIL and HOURS. Anything left empty is hidden
 // automatically instead of showing placeholder text.
 // ---------------------------------------------------------------------------
-const FACEBOOK_URL =
-  "https://www.facebook.com/people/Mikmiks-Garahe/100083373601114/";
-const ADDRESS_LINE_1 = "91 Aurora Pijuan St., BF Resort Village";
+const BUSINESS_NAME = "Auto Prime Car Trading";
+const FACEBOOK_URL = "https://www.facebook.com/autoprimecartrading/";
+const ADDRESS_LINE_1 =
+  "Blk 21 Lot 4 Leo Alejandrino St., BF Resort Village, Brgy. Talon Dos";
 const ADDRESS_LINE_2 = "Las Piñas City, Philippines";
 const PHONE_DISPLAY = ""; // e.g. "0917 123 4567"
 const PHONE_TEL = ""; // e.g. "+639171234567"
@@ -34,14 +35,14 @@ const HOURS: { day: string; time: string }[] = [
 ];
 
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  `Mikmik's Garahe, ${ADDRESS_LINE_1}, ${ADDRESS_LINE_2}`,
+  `${BUSINESS_NAME}, ${ADDRESS_LINE_1}, ${ADDRESS_LINE_2}`,
 )}`;
 
 const contactOptions = [
   {
     icon: MessageCircle,
     title: "Message us on Facebook",
-    value: "Mikmik's Garahe",
+    value: BUSINESS_NAME,
     href: FACEBOOK_URL,
   },
   {
@@ -75,7 +76,7 @@ const contactOptions = [
 const privacyCopy = {
   title: "Privacy Policy",
   body: [
-    "At Mikmik's Garahe, we value your trust and are committed to protecting your personal information. We collect details you provide when contacting us, requesting a valuation, or browsing our inventory.",
+    `At ${BUSINESS_NAME}, we value your trust and are committed to protecting your personal information. We collect details you provide when contacting us, requesting a valuation, or browsing our inventory.`,
     "This information may be used to respond to enquiries, process vehicle transactions, improve our services, and communicate relevant updates. We do not sell your personal data to third parties for marketing purposes.",
     "We may use secure third-party tools to help operate our website, manage customer interactions, and improve the user experience. These partners are expected to handle your information with appropriate safeguards.",
     "You have the right to request access to, correction of, or deletion of your personal data, subject to legal and operational requirements. If you have any concerns, please contact our team directly.",
@@ -272,7 +273,7 @@ export default function Contact() {
 
       <main className="min-h-screen bg-[#0B0714] text-white">
         <section className="relative overflow-hidden border-b border-[#E11D2E]/20 bg-[#080b0f]">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(225, 29, 46,0.18),transparent_50%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(225,29,46,0.18),transparent_50%)]" />
 
           <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
             <div className="max-w-3xl">
@@ -291,7 +292,8 @@ export default function Contact() {
               <p className="mt-6 max-w-2xl text-base leading-7 text-zinc-300 sm:text-lg">
                 Tell us what you’re looking for, and our team will guide you
                 toward a vehicle that fits your life, your budget, and your
-                driving style. Cash, financing, and trade-in are all welcome.
+                driving style. Buying, selling, or trading in, we’re happy to
+                help.
               </p>
             </div>
           </div>
@@ -318,7 +320,7 @@ export default function Contact() {
                     <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-500">
                       {title}
                     </p>
-                    <p className="mt-2 text-lg font-semibold text-white transition-colors group-hover:text-[#A3DC6B]">
+                    <p className="mt-2 text-lg font-semibold text-white transition-colors group-hover:text-[#FF3344]">
                       {value}
                     </p>
                   </div>
@@ -565,7 +567,7 @@ export default function Contact() {
                     <button
                       type="button"
                       onClick={() => setActiveModal("privacy")}
-                      className="font-medium text-[#E11D2E] transition-colors hover:text-[#A3DC6B]"
+                      className="font-medium text-[#E11D2E] transition-colors hover:text-[#FF3344]"
                     >
                       Privacy Policy
                     </button>{" "}
@@ -594,7 +596,7 @@ export default function Contact() {
 
                 <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm text-zinc-400">
-                    We usually respond within 1 business day.
+                    We’ll get back to you as soon as we can.
                   </p>
 
                   <button
@@ -637,7 +639,7 @@ export default function Contact() {
             <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
                 href="/showroom"
-                className="inline-flex items-center justify-center rounded-full bg-[#E11D2E] px-7 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#FF3344] hover:shadow-[0_0_30px_rgba(225, 29, 46,0.25)]"
+                className="inline-flex items-center justify-center rounded-full bg-[#E11D2E] px-7 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#FF3344] hover:shadow-[0_0_30px_rgba(225,29,46,0.25)]"
               >
                 Visit Showroom
               </Link>
@@ -666,7 +668,7 @@ export default function Contact() {
                 type="button"
                 aria-label="Close privacy policy"
                 onClick={() => setActiveModal(null)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 transition-all hover:border-[#E11D2E] hover:text-[#A3DC6B]"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 transition-all hover:border-[#E11D2E] hover:text-[#FF3344]"
               >
                 ×
               </button>
