@@ -5,7 +5,9 @@ import {
   Award,
   BadgeCheck,
   CarFront,
-  CreditCard,
+  CalendarCheck,
+  Images,
+  Repeat,
   ShieldCheck,
   Users,
 } from "lucide-react";
@@ -14,16 +16,14 @@ import Navbar from "../../components/layout/navbar";
 import Footer from "../../components/layout/footer";
 import CTA from "../../components/home/cta";
 
-// Verified from public sources:
-// - Carmudi Philippines named Mikmik's Garahe a Top 2 Dealer of 2023
-// - Facebook page: 100% recommend (16 reviews), cash/financing/trade-in accepted,
-//   fast approval, "We buy rush cars"
-// - Location: 91 Aurora Pijuan St., BF Resort Village, Las Piñas City
+// Source: public dealer listings (Zigwheels, Carmudi) show Auto Prime Car Trading
+// as a used car dealer in BF Resort Village, Las Piñas City.
+// Facebook: https://www.facebook.com/autoprimecartrading/
 const stats = [
-  { value: "Top 2", label: "Carmudi dealer of 2023" },
-  { value: "100%", label: "Recommended on Facebook" },
-  { value: "3 ways", label: "To pay: cash, financing, or trade-in" },
   { value: "Las Piñas", label: "BF Resort Village showroom" },
+  { value: "Buy • Sell • Trade", label: "Used cars, handled in one place" },
+  { value: "Photos & Videos", label: "On every vehicle listing" },
+  { value: "Test Drive", label: "Book online, drive in person" },
 ];
 
 const values = [
@@ -37,19 +37,19 @@ const values = [
     icon: BadgeCheck,
     title: "Clear details",
     description:
-      "We show each car's specifications, photos, and condition up front, so you can decide with confidence whether it's your first car or your next upgrade.",
+      "Each listing shows the specs, mileage, photos, and videos up front, so you can decide with confidence whether it's your first car or your next upgrade.",
   },
   {
-    icon: CreditCard,
-    title: "Flexible payment",
+    icon: Repeat,
+    title: "Sell or trade-in",
     description:
-      "Pay in cash, finance, or trade in your current car. Financing comes with fast approval, and we explain the terms before you commit.",
+      "Have a car to sell or trade? Get a quick value estimate online, send it in for review, and our team will get back to you.",
   },
   {
     icon: Users,
     title: "Friendly service",
     description:
-      "From your first message to the final handover, our team is patient, responsive, and easy to talk to. We also buy rush cars if you need to sell fast.",
+      "From your first message to the final handover, our team is patient, responsive, and easy to talk to.",
   },
 ];
 
@@ -60,7 +60,7 @@ export default function About() {
 
       <main className="min-h-screen bg-[#0B0714] text-white">
         <section className="relative overflow-hidden border-b border-[#E11D2E]/20 bg-[#080b0f]">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(225, 29, 46,0.18),transparent_50%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(225,29,46,0.18),transparent_50%)]" />
 
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 lg:pt-24">
             <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -78,9 +78,9 @@ export default function About() {
                 </h1>
 
                 <p className="mt-6 max-w-xl text-base leading-7 text-zinc-300 sm:text-lg">
-                  Mikmik&apos;s Garahe is a car dealership in BF Resort Village,
-                  Las Piñas City. We buy, sell, and trade used cars, with
-                  flexible payment options and a straightforward path to
+                  Auto Prime Car Trading is a used car dealership in BF Resort
+                  Village, Las Piñas City. We buy, sell, and trade pre-owned
+                  cars, with clear details and a straightforward path to
                   ownership.
                 </p>
               </div>
@@ -89,7 +89,7 @@ export default function About() {
                 <div className="flex items-center justify-between border-b border-white/10 pb-5">
                   <div>
                     <p className="text-xs uppercase tracking-[0.22em] text-zinc-400">
-                      Mikmik&apos;s Garahe
+                      Auto Prime Car Trading
                     </p>
                     <h2 className="mt-2 text-2xl font-black text-white">
                       How we work
@@ -104,13 +104,13 @@ export default function About() {
                 <div className="mt-6 space-y-5 text-lg leading-7 text-zinc-300">
                   <p>
                     Buying a car should feel clear, confident, and personal. We
-                    explain pricing and payment options up front, so you know
-                    what to expect before you commit.
+                    show the details of every vehicle up front, so you know what
+                    to expect before you visit.
                   </p>
                   <p>
-                    Whether you want to pay in cash, finance, or trade in your
-                    current car, we walk you through each option. Need to sell
-                    fast? We also buy rush cars.
+                    Looking to buy, sell, or trade in your current car? Our team
+                    walks you through each step, from the first enquiry to the
+                    final handover.
                   </p>
                 </div>
               </div>
@@ -124,7 +124,7 @@ export default function About() {
                   key={stat.label}
                   className="rounded-[24px] border border-white/10 bg-[#120f0d] p-6 text-center shadow-[0_20px_60px_rgba(0,0,0,0.18)]"
                 >
-                  <div className="text-3xl font-black text-[#E11D2E] sm:text-4xl">
+                  <div className="text-2xl font-black text-[#E11D2E] sm:text-3xl">
                     {stat.value}
                   </div>
                   <p className="mt-3 text-base text-zinc-300">{stat.label}</p>
@@ -150,7 +150,7 @@ export default function About() {
 
               <ul className="mt-6 space-y-4 text-sm leading-7 text-zinc-300">
                 {[
-                  "Cash, financing, or trade-in: you choose what works for you.",
+                  "Buy, sell, or trade in: you choose what works for you.",
                   "Friendly people who listen first and explain clearly.",
                   "Simple, upfront communication from first enquiry to delivery.",
                 ].map((item) => (
@@ -164,19 +164,30 @@ export default function About() {
               </ul>
             </div>
 
-            <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(225, 29, 46,0.18),transparent_45%)] p-6 sm:p-8">
+            <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(225,29,46,0.18),transparent_45%)] p-6 sm:p-8">
               <div className="relative">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                  The Mikmik&apos;s Garahe difference
+                  The Auto Prime difference
                 </p>
                 <h3 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl">
                   We make buying feel confident, not complicated.
                 </h3>
                 <p className="mt-5 max-w-xl text-base leading-7 text-zinc-300">
                   Whether you&apos;re shopping for a family SUV, a city car, or
-                  a weekend ride, we help you find something that fits your life
-                  and your budget.
+                  a pickup for work, we help you find something that fits your
+                  life and your budget.
                 </p>
+
+                <div className="mt-6 flex flex-wrap gap-3 text-sm text-zinc-300">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2">
+                    <Images size={16} className="text-[#E11D2E]" />
+                    Photos & videos
+                  </span>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2">
+                    <CalendarCheck size={16} className="text-[#E11D2E]" />
+                    Book a test drive
+                  </span>
+                </div>
               </div>
             </div>
           </div>
