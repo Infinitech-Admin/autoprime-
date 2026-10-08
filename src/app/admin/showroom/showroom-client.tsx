@@ -30,7 +30,7 @@ const STATUS_FILTERS: Array<"All" | Vehicle["status"]> = [
 ];
 
 const STATUS_STYLES: Record<Vehicle["status"], string> = {
-  available: "bg-red-500/10 text-red-400",
+  available: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
   reserved: "bg-zinc-500/15 text-zinc-300",
   sold: "bg-zinc-500/15 text-zinc-400",
 };
@@ -76,13 +76,13 @@ function Dialog({
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-[#060606]/70 backdrop-blur-sm"
         onClick={() => {
           if (!busy) onClose();
         }}
       />
       {/* Panel */}
-      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#0d0d0d] p-6 shadow-2xl">
+      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#060606] p-6 shadow-2xl">
         {children}
       </div>
     </div>,
@@ -110,7 +110,7 @@ function RowActions({
         onClick={() => onEdit(vehicle)}
         title="Edit"
         aria-label={`Edit ${vehicle.name}`}
-        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#E11D2E]/50 hover:bg-[#E11D2E]/10 hover:text-[#E11D2E]"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#FF2D2D]/50 hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF]"
       >
         <Pencil size={14} />
       </button>
@@ -119,7 +119,7 @@ function RowActions({
         onClick={() => onDelete(vehicle)}
         title="Delete"
         aria-label={`Delete ${vehicle.name}`}
-        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#FF2D2D]/50 hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF]"
       >
         <Trash2 size={14} />
       </button>
@@ -220,7 +220,7 @@ export default function ShowroomClient({
         </div>
         <button
           onClick={() => setDrawerVehicle(null)}
-          className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#E11D2E] to-[#FF3344] px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-105"
+          className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FF2D2D] to-[#FF5A5A] px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-105"
         >
           <Plus size={16} />
           Add vehicle
@@ -238,7 +238,7 @@ export default function ShowroomClient({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by model or type..."
-            className="w-full rounded-xl border border-white/10 bg-[#111111]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#E11D2E]/60"
+            className="w-full rounded-xl border border-white/10 bg-[#111111]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#FF2D2D]/60"
           />
         </div>
 
@@ -253,7 +253,7 @@ export default function ShowroomClient({
               onClick={() => setStatusFilter(status)}
               className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium capitalize transition-colors ${
                 statusFilter === status
-                  ? "bg-[#E11D2E]/15 text-[#E11D2E]"
+                  ? "bg-[#FF2D2D]/15 text-[#FFFFFF]"
                   : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
               }`}
             >
@@ -264,14 +264,14 @@ export default function ShowroomClient({
       </div>
 
       {error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+        <div className="rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
           {error}
         </div>
       )}
 
       {loading ? (
         <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-[#111111]/70 py-16 text-sm text-zinc-400">
-          <Loader2 size={18} className="mr-2 animate-spin text-[#E11D2E]" />
+          <Loader2 size={18} className="mr-2 animate-spin text-[#FFFFFF]" />
           Loading vehicles...
         </div>
       ) : (
@@ -302,7 +302,7 @@ export default function ShowroomClient({
                   >
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#E11D2E]/15 text-[#E11D2E]">
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
                           {v.image ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
@@ -363,7 +363,7 @@ export default function ShowroomClient({
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#E11D2E]/15 text-[#E11D2E]">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
                       {v.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -423,7 +423,7 @@ export default function ShowroomClient({
           busy={deleting}
         >
           <div className="flex items-start gap-4">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-500/10 text-red-400">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FF2D2D]/10 text-[#FFFFFF]">
               <AlertTriangle size={20} />
             </span>
             <div className="min-w-0">
@@ -439,7 +439,7 @@ export default function ShowroomClient({
           </div>
 
           {deleteError && (
-            <div className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+            <div className="mt-4 rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
               {deleteError}
             </div>
           )}
@@ -457,7 +457,7 @@ export default function ShowroomClient({
               type="button"
               onClick={confirmDelete}
               disabled={deleting}
-              className="flex items-center justify-center gap-2 rounded-full bg-red-500 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-red-600 disabled:opacity-60"
+              className="flex items-center justify-center gap-2 rounded-full bg-[#FF2D2D] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#FF2D2D] disabled:opacity-60"
             >
               {deleting ? (
                 <>

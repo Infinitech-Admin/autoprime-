@@ -27,14 +27,14 @@ export default function LegalPage({
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-[#191610] text-white">
-        <section className="relative overflow-hidden border-b border-[#E11D2E]/20 bg-[#0d0b09]">
+      <main className="min-h-screen bg-[#111111] text-white">
+        <section className="relative overflow-hidden border-b border-[#FF2D2D]/20 bg-[#060606]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(191,152,13,0.18),transparent_50%)]" />
 
           <div className="relative mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
             <div className="mb-5 flex items-center gap-3">
-              <span className="h-px w-10 bg-[#E11D2E]" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
+              <span className="h-px w-10 bg-[#FF2D2D]" />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#FFFFFF]">
                 {eyebrow}
               </span>
             </div>
@@ -50,14 +50,14 @@ export default function LegalPage({
         </section>
 
         <section className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
-          <div className="rounded-[28px] border border-white/10 bg-[#120f0d] p-6 sm:p-10">
+          <div className="rounded-[28px] border border-white/10 bg-[#111111] p-6 sm:p-10">
             <p className="text-base leading-7 text-zinc-300">{intro}</p>
 
             <div className="mt-10 space-y-10">
               {sections.map((section, index) => (
                 <article key={section.title}>
                   <h2 className="flex items-baseline gap-3 text-xl font-bold text-white">
-                    <span className="text-sm font-semibold text-[#E11D2E]">
+                    <span className="text-sm font-semibold text-[#FFFFFF]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     {section.title}
@@ -73,7 +73,7 @@ export default function LegalPage({
                   ))}
 
                   {section.bullets ? (
-                    <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-zinc-300 marker:text-[#E11D2E]">
+                    <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-zinc-300 marker:text-[#FFFFFF]">
                       {section.bullets.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
@@ -86,21 +86,21 @@ export default function LegalPage({
             <div className="mt-12 flex flex-wrap gap-3 border-t border-white/10 pt-6 text-sm">
               <Link
                 href="/privacy-policy"
-                className="text-zinc-400 transition-colors hover:text-[#E11D2E]"
+                className="text-zinc-400 transition-colors hover:text-[#FFFFFF]"
               >
                 Privacy Policy
               </Link>
               <span className="text-zinc-600">•</span>
               <Link
                 href="/terms-and-conditions"
-                className="text-zinc-400 transition-colors hover:text-[#E11D2E]"
+                className="text-zinc-400 transition-colors hover:text-[#FFFFFF]"
               >
                 Terms &amp; Conditions
               </Link>
               <span className="text-zinc-600">•</span>
               <Link
                 href="/contact"
-                className="text-zinc-400 transition-colors hover:text-[#E11D2E]"
+                className="text-zinc-400 transition-colors hover:text-[#FFFFFF]"
               >
                 Contact Us
               </Link>

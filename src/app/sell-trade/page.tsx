@@ -1,22 +1,40 @@
+// Path: app/sell-trade/page.tsx
+
 "use client";
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
-  ArrowRight,
   BadgeCheck,
-  CarFront,
-  Users,
-  Gauge,
+  ChevronDown,
+  Phone,
   ShieldCheck,
   Sparkles,
-  UserRound,
+  Users,
 } from "lucide-react";
 
 import Navbar from "../../components/layout/navbar";
 import Footer from "../../components/layout/footer";
-import CTA from "../../components/home/cta";
+import {
+  btnLine,
+  btnRed,
+  card,
+  CtaBand,
+  display,
+  fieldInput,
+  PageHero,
+} from "../../components/ui/prime";
 
+const PHONE_DISPLAY = "0927 377 7182";
+const PHONE_TEL = "+639273777182";
+
+const paths = [
+  { label: "Cash", note: "Sell your car outright" },
+  { label: "Trade-in", note: "Put its value toward your next car" },
+  { label: "Upgrade", note: "Move up to a better fit" },
+];
+
+// A real sequence, so these stay numbered.
 const steps = [
   {
     title: "Tell us about your car",
@@ -64,7 +82,6 @@ const conditionFactors: Record<string, number> = {
   Good: 0.82,
   Fair: 0.66,
 };
-
 const vehicleTypeFactors: Record<string, number> = {
   Sedan: 1,
   SUV: 1.15,
@@ -103,14 +120,9 @@ const getBasePrice = (brand: string) => {
   return match ? brandBasePrices[match] : DEFAULT_BASE_PRICE;
 };
 
-const labelClass =
-  "mb-2.5 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400";
-
-const inputClass =
-  "h-13 w-full rounded-2xl border border-white/10 bg-[#181512] px-4 text-sm text-white placeholder:text-zinc-600 outline-none transition-all duration-300 hover:border-white/20 focus:border-[#E11D2E]/70 focus:bg-[#1b1713] focus:ring-4 focus:ring-[#E11D2E]/10";
-
-const selectClass =
-  "h-13 w-full appearance-none rounded-2xl border border-white/10 bg-[#181512] px-4 text-sm text-white outline-none transition-all duration-300 hover:border-white/20 focus:border-[#E11D2E]/70 focus:bg-[#1b1713] focus:ring-4 focus:ring-[#E11D2E]/10";
+const labelClass = "mb-2 block text-sm text-white/80";
+const inputClass = `${fieldInput} h-12 !py-0`;
+const selectClass = `${inputClass} appearance-none pr-10`;
 
 type FormState = {
   brand: string;
@@ -239,493 +251,355 @@ export default function SellTradePage() {
   return (
     <>
       <Navbar />
+      <main className="min-h-screen bg-[#161616] text-white">
+        <PageHero
+          tagline="CAR TRADING"
+          title="Turn your car into your next upgrade"
+        >
+          Get a competitive offer for your vehicle, trade it in for a better
+          fit, and move forward without the usual dealership pressure.
+          <span className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <a href="#valuation" className={btnRed}>
+              Get my estimate
+            </a>
+            <a
+              href={`tel:${PHONE_TEL}`}
+              className="flex items-center gap-3 text-sm text-white/60 transition-colors hover:text-white"
+            >
+              <Phone size={16} className="text-[#E31B23]" />
+              Prefer to talk?{" "}
+              <span className="text-white">{PHONE_DISPLAY}</span>
+            </a>
+          </span>
+        </PageHero>
 
-      <main className="min-h-screen bg-[#191610] text-white">
-        <section className="relative overflow-hidden border-b border-[#E11D2E]/20 bg-[#0d0b09]">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(191,152,13,0.18),transparent_50%)]" />
-          <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-            <div className="max-w-3xl">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="h-px w-10 bg-[#E11D2E]" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                  Ready to Move?
-                </span>
-              </div>
-
-              <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
-                Turn your current car into your{" "}
-                <span className="block text-[#E11D2E]">next upgrade</span>
-              </h1>
-
-              <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-300 sm:text-lg">
-                Get a competitive offer for your vehicle, trade it in for a
-                better fit, and move forward without the usual dealership
-                pressure.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* How it works */}
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="space-y-5">
-            <section className="rounded-[28px] border border-white/10 bg-[#130f0d] p-6">
-              <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E11D2E]/10 text-[#E11D2E]">
-                  <CarFront size={18} />
-                </div>
-                <h2 className="text-2xl font-black tracking-tight text-white">
-                  How it works
-                </h2>
-              </div>
-
-              <div className="grid gap-5 md:grid-cols-3">
-                {steps.map((step, index) => (
-                  <div
-                    key={step.title}
-                    className="rounded-[24px] border border-white/10 bg-[#171410] p-5"
+        {/* PATHS + HOW IT WORKS */}
+        <section className="border-b border-white/10">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+            <div className="grid divide-y divide-white/10 border border-white/10 md:grid-cols-3 md:divide-x md:divide-y-0">
+              {paths.map((p) => (
+                <div key={p.label} className="p-6">
+                  <p
+                    className={`${display} text-lg font-light uppercase tracking-[0.14em] text-[#E31B23]`}
                   >
-                    <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#E11D2E] text-sm font-black text-black">
-                      {index + 1}
-                    </div>
-                    <h3 className="text-xl font-bold text-white">
-                      {step.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-7 text-zinc-300">
-                      {step.copy}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
+                    {p.label}
+                  </p>
+                  <p className="mt-1 text-sm text-white/60">{p.note}</p>
+                </div>
+              ))}
+            </div>
+
+            <h2
+              className={`${display} mt-16 text-2xl font-light uppercase tracking-[0.14em] sm:text-3xl`}
+            >
+              How it works
+            </h2>
+            <div className="mt-8 grid gap-6 md:grid-cols-3">
+              {steps.map((step, index) => (
+                <div key={step.title} className={`${card} p-6`}>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#E31B23] text-sm text-[#E31B23]">
+                    {index + 1}
+                  </span>
+                  <h3 className="mt-5 text-lg">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/60">
+                    {step.copy}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Vehicle Details & Estimated Value */}
-        <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <form
-            onSubmit={handleSubmit}
-            className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start"
-          >
-            {/* Vehicle Details */}
-            <div className="overflow-hidden rounded-[30px] border border-white/10 bg-[#120f0d] shadow-[0_25px_80px_rgba(0,0,0,0.25)]">
-              {/* Header */}
-              <div className="border-b border-white/10 px-5 py-5 sm:px-7 sm:py-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#E11D2E]/20 bg-[#E11D2E]/10 text-[#F3D77A]">
-                    <Gauge size={21} />
-                  </div>
-
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                      Vehicle information
-                    </p>
-
-                    <h2 className="mt-1 text-2xl font-black tracking-tight text-white sm:text-3xl">
-                      Tell us about your car
-                    </h2>
-
-                    <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-400">
-                      Enter your vehicle details to receive an estimated market
-                      value.
-                    </p>
-                  </div>
+        {/* VEHICLE DETAILS + ESTIMATE */}
+        <section id="valuation" className="scroll-mt-24">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+            <form
+              onSubmit={handleSubmit}
+              className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start"
+            >
+              <div className={card}>
+                <div className="border-b border-white/10 px-5 py-6 sm:px-7">
+                  <h2
+                    className={`${display} text-xl font-light uppercase tracking-[0.14em]`}
+                  >
+                    Tell us about your car
+                  </h2>
+                  <p className="mt-3 max-w-xl text-sm leading-6 text-white/55">
+                    Enter your vehicle details to receive an estimated market
+                    value.
+                  </p>
                 </div>
-              </div>
-
-              {/* Form fields */}
-              <div className="p-5 sm:p-7">
-                <div className="grid gap-x-5 gap-y-5 sm:grid-cols-2">
-                  <label className="block">
-                    <span className={labelClass}>
-                      Brand
-                      <span className="text-[#E11D2E]">*</span>
-                    </span>
-                    <input
-                      type="text"
-                      name="brand"
-                      value={form.brand}
-                      onChange={handleChange}
-                      placeholder="e.g. BMW"
-                      required
-                      className={inputClass}
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className={labelClass}>
-                      Model
-                      <span className="text-[#E11D2E]">*</span>
-                    </span>
-                    <input
-                      type="text"
-                      name="model"
-                      value={form.model}
-                      onChange={handleChange}
-                      placeholder="e.g. 5 Series"
-                      required
-                      className={inputClass}
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className={labelClass}>
-                      Year
-                      <span className="text-[#E11D2E]">*</span>
-                    </span>
-                    <input
-                      type="number"
-                      name="year"
-                      min="2000"
-                      max="2035"
-                      value={form.year}
-                      onChange={handleChange}
-                      placeholder="2023"
-                      required
-                      className={inputClass}
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className={labelClass}>
-                      Vehicle type
-                      <span className="text-[#E11D2E]">*</span>
-                    </span>
-                    <select
-                      name="type"
-                      value={form.type}
-                      onChange={handleChange}
-                      className={selectClass}
-                    >
-                      <option>Sedan</option>
-                      <option>SUV</option>
-                      <option>Hatchback</option>
-                      <option>Truck</option>
-                      <option>Luxury</option>
-                    </select>
-                  </label>
-
-                  <label className="block">
-                    <span className={labelClass}>
-                      Mileage
-                      <span className="text-[#E11D2E]">*</span>
-                    </span>
-                    <div className="relative">
-                      <input
-                        type="number"
-                        name="mileage"
-                        min="0"
-                        value={form.mileage}
-                        onChange={handleChange}
-                        placeholder="18,500"
-                        required
-                        className={`${inputClass} pr-20`}
-                      />
-                      <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-xs font-medium text-zinc-600">
-                        KM
-                      </span>
-                    </div>
-                  </label>
-
-                  <label className="block">
-                    <span className={labelClass}>
-                      Condition
-                      <span className="text-[#E11D2E]">*</span>
-                    </span>
-                    <select
-                      name="condition"
-                      value={form.condition}
-                      onChange={handleChange}
-                      className={selectClass}
-                    >
-                      <option>Excellent</option>
-                      <option>Good</option>
-                      <option>Fair</option>
-                    </select>
-                  </label>
-                </div>
-
-                {/* Contact details */}
-                <div className="mt-7 border-t border-white/10 pt-6">
-                  <div className="mb-5 flex items-center gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#E11D2E]/20 bg-[#E11D2E]/10 text-[#F3D77A]">
-                      <UserRound size={18} />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                        Contact details
-                      </p>
-                      <p className="mt-1 text-xs text-zinc-500">
-                        So our team can reach you. Phone or email is required.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="grid gap-x-5 gap-y-5 sm:grid-cols-2">
-                    <label className="block sm:col-span-2">
-                      <span className={labelClass}>
-                        Full name
-                        <span className="text-[#E11D2E]">*</span>
-                      </span>
-                      <input
-                        type="text"
-                        name="fullName"
-                        value={form.fullName}
-                        onChange={handleChange}
-                        placeholder="Juan Dela Cruz"
-                        autoComplete="name"
-                        required
-                        className={inputClass}
-                      />
-                    </label>
-
-                    <label className="block">
-                      <span className={labelClass}>Phone</span>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={form.phone}
-                        onChange={handleChange}
-                        placeholder="09XX XXX XXXX"
-                        autoComplete="tel"
-                        className={inputClass}
-                      />
-                    </label>
-
-                    <label className="block">
-                      <span className={labelClass}>Email</span>
-                      <input
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="you@example.com"
-                        autoComplete="email"
-                        className={inputClass}
-                      />
-                    </label>
-                  </div>
-                </div>
-
-                {/* Bottom message */}
-                <div className="mt-5 border-t border-white/10 pt-5">
-                  <div className="flex items-start gap-3">
-                    <Sparkles
-                      size={16}
-                      className="mt-0.5 shrink-0 text-[#E11D2E]"
-                    />
-
-                    <p className="text-xs leading-5 text-zinc-500">
-                      Your final offer may vary depending on inspection results,
-                      vehicle history, documentation, and current market
-                      conditions.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Estimated Value */}
-            <div className="relative">
-              <div className="pointer-events-none absolute -inset-4 rounded-[40px] bg-[#E11D2E]/5 blur-3xl" />
-
-              <div className="relative overflow-hidden rounded-[30px] border border-[#E11D2E]/25 bg-[#120f0d] shadow-[0_30px_100px_rgba(0,0,0,0.45)]">
-                <div className="h-1 w-full bg-gradient-to-r from-transparent via-[#E11D2E] to-transparent" />
 
                 <div className="p-5 sm:p-7">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#E11D2E] shadow-[0_0_10px_rgba(191,152,13,0.8)]" />
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                          Instant estimate
-                        </p>
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <label className="block">
+                      <span className={labelClass}>Brand *</span>
+                      <input
+                        type="text"
+                        name="brand"
+                        value={form.brand}
+                        onChange={handleChange}
+                        placeholder="e.g. BMW"
+                        required
+                        className={inputClass}
+                      />
+                    </label>
+                    <label className="block">
+                      <span className={labelClass}>Model *</span>
+                      <input
+                        type="text"
+                        name="model"
+                        value={form.model}
+                        onChange={handleChange}
+                        placeholder="e.g. 5 Series"
+                        required
+                        className={inputClass}
+                      />
+                    </label>
+                    <label className="block">
+                      <span className={labelClass}>Year *</span>
+                      <input
+                        type="number"
+                        name="year"
+                        min="2000"
+                        max="2035"
+                        value={form.year}
+                        onChange={handleChange}
+                        placeholder="2023"
+                        required
+                        className={inputClass}
+                      />
+                    </label>
+                    <label className="block">
+                      <span className={labelClass}>Vehicle type *</span>
+                      <div className="relative">
+                        <select
+                          name="type"
+                          value={form.type}
+                          onChange={handleChange}
+                          className={selectClass}
+                        >
+                          <option>Sedan</option>
+                          <option>SUV</option>
+                          <option>Hatchback</option>
+                          <option>Truck</option>
+                          <option>Luxury</option>
+                        </select>
+                        <ChevronDown
+                          size={18}
+                          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#E31B23]"
+                        />
                       </div>
-
-                      <h2 className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
-                        Your Car Value
-                      </h2>
-
-                      <p className="mt-2 text-sm leading-6 text-zinc-500">
-                        A preliminary estimate based on your vehicle
-                        information.
-                      </p>
-                    </div>
-
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#E11D2E]/20 bg-[#E11D2E]/10 text-[#F3D77A]">
-                      <Gauge size={20} />
-                    </div>
-                  </div>
-
-                  {/* Main Value */}
-                  <div className="relative mt-5 overflow-hidden rounded-[24px] border border-[#E11D2E]/20 bg-gradient-to-br from-[#1c1812] via-[#171410] to-[#110f0c] p-6 sm:p-7">
-                    <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#E11D2E]/10 blur-3xl" />
-
-                    <div className="relative">
-                      <div className="flex items-center justify-between gap-3">
-                        <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-                          Estimated market value
-                        </p>
-
-                        <span className="rounded-full border border-[#E11D2E]/20 bg-[#E11D2E]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#F3D77A]">
-                          Live
+                    </label>
+                    <label className="block">
+                      <span className={labelClass}>Mileage *</span>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          name="mileage"
+                          min="0"
+                          value={form.mileage}
+                          onChange={handleChange}
+                          placeholder="18,500"
+                          required
+                          className={`${inputClass} pr-14`}
+                        />
+                        <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-xs text-white/50">
+                          KM
                         </span>
                       </div>
-
-                      <p className="mt-3 text-4xl font-black tracking-tight text-white sm:text-5xl">
-                        ₱{estimate.toLocaleString()}
-                      </p>
-
-                      <p className="mt-2 text-xs text-zinc-500">
-                        Preliminary estimate • Subject to inspection
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-white/10 bg-[#171410] p-4 transition-colors hover:border-white/15">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
-                        Market range
-                      </p>
-
-                      <p className="mt-2 text-base font-bold leading-6 text-white">
-                        ₱{rangeLow.toLocaleString()}
-                        <span className="mx-1 text-zinc-600">—</span>₱
-                        {rangeHigh.toLocaleString()}
-                      </p>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-[#171410] p-4 transition-colors hover:border-white/15">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
-                        Vehicle condition
-                      </p>
-
-                      <p className="mt-2 text-base font-bold text-white">
-                        {form.condition}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="mt-6 border-t border-white/10 pt-5">
-                    <div className="flex flex-col gap-3 sm:flex-row">
-                      <button
-                        type="submit"
-                        disabled={status === "submitting"}
-                        className="group inline-flex flex-1 items-center justify-center gap-2.5 rounded-2xl bg-[#E11D2E] px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#E11D2E]/10 transition-all duration-300 hover:bg-[#FF3344] hover:shadow-[#E11D2E]/25 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
-                      >
-                        <BadgeCheck
+                    </label>
+                    <label className="block">
+                      <span className={labelClass}>Condition *</span>
+                      <div className="relative">
+                        <select
+                          name="condition"
+                          value={form.condition}
+                          onChange={handleChange}
+                          className={selectClass}
+                        >
+                          <option>Excellent</option>
+                          <option>Good</option>
+                          <option>Fair</option>
+                        </select>
+                        <ChevronDown
                           size={18}
-                          className="transition-transform duration-300 group-hover:scale-110"
+                          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#E31B23]"
                         />
-
-                        <span>
-                          {status === "submitting"
-                            ? "Submitting..."
-                            : "Submit for Review"}
-                        </span>
-
-                        <ArrowRight
-                          size={17}
-                          className="transition-transform duration-300 group-hover:translate-x-1"
-                        />
-                      </button>
-
-                      <Link
-                        href="/showroom"
-                        className="group inline-flex flex-1 items-center justify-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:border-[#E11D2E]/40 hover:bg-[#E11D2E]/10 hover:text-[#F3D77A]"
-                      >
-                        <CarFront
-                          size={18}
-                          className="text-[#E11D2E] transition-transform duration-300 group-hover:scale-110"
-                        />
-
-                        <span>View Showroom</span>
-
-                        <ArrowRight
-                          size={16}
-                          className="text-zinc-500 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#E11D2E]"
-                        />
-                      </Link>
-                    </div>
-
-                    {status === "error" && (
-                      <p
-                        role="alert"
-                        className="mt-3 text-center text-[11px] leading-5 text-red-400"
-                      >
-                        {errorMessage}
-                      </p>
-                    )}
-
-                    {status === "success" && (
-                      <p
-                        role="status"
-                        className="mt-3 text-center text-[11px] leading-5 text-[#F3D77A]"
-                      >
-                        Thanks! Your vehicle details were submitted. Our team
-                        will contact you soon.
-                      </p>
-                    )}
-
-                    {(status === "idle" || status === "submitting") && (
-                      <p className="mt-3 text-center text-[11px] leading-5 text-zinc-600">
-                        Submit your vehicle details for our team to review your
-                        estimate.
-                      </p>
-                    )}
+                      </div>
+                    </label>
                   </div>
+
+                  <div className="mt-8 border-t border-white/10 pt-7">
+                    <h3
+                      className={`${display} text-base font-light uppercase tracking-[0.14em]`}
+                    >
+                      Contact details
+                    </h3>
+                    <p className="mt-2 text-sm text-white/50">
+                      So our team can reach you. Phone or email is required.
+                    </p>
+
+                    <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                      <label className="block sm:col-span-2">
+                        <span className={labelClass}>Full name *</span>
+                        <input
+                          type="text"
+                          name="fullName"
+                          value={form.fullName}
+                          onChange={handleChange}
+                          placeholder="Juan Dela Cruz"
+                          autoComplete="name"
+                          required
+                          className={inputClass}
+                        />
+                      </label>
+                      <label className="block">
+                        <span className={labelClass}>Phone</span>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={form.phone}
+                          onChange={handleChange}
+                          placeholder="09XX XXX XXXX"
+                          autoComplete="tel"
+                          className={inputClass}
+                        />
+                      </label>
+                      <label className="block">
+                        <span className={labelClass}>Email</span>
+                        <input
+                          type="email"
+                          name="email"
+                          value={form.email}
+                          onChange={handleChange}
+                          placeholder="you@example.com"
+                          autoComplete="email"
+                          className={inputClass}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  <p className="mt-7 border-l border-white/25 pl-4 text-xs leading-5 text-white/55">
+                    Your final offer may vary depending on inspection results,
+                    vehicle history, documentation, and current market
+                    conditions.
+                  </p>
                 </div>
               </div>
-            </div>
-          </form>
 
-          <div className="mx-auto max-w-7xl px-4 pt-20 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-5 flex items-center justify-center gap-3">
-                <span className="h-px w-10 bg-[#E11D2E]" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                  Why drivers choose us
-                </span>
-                <span className="h-px w-10 bg-[#E11D2E]" />
-              </div>
-
-              <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl">
-                A car buying experience built around you.
-              </h2>
-            </div>
-
-            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {values.map((value) => {
-                const Icon = value.icon;
-
-                return (
-                  <div
-                    key={value.title}
-                    className="group rounded-[26px] border border-white/10 bg-[#120f0d] p-6 transition-all duration-300 hover:border-[#E11D2E]/50 hover:bg-[#15120f] hover:shadow-[0_15px_50px_rgba(0,0,0,0.25)]"
+              <div className={`${card} lg:sticky lg:top-28`}>
+                <div className="p-5 sm:p-7">
+                  <h2
+                    className={`${display} text-xl font-light uppercase tracking-[0.14em]`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#E11D2E]/30 bg-[#E11D2E]/10 text-[#E11D2E] transition-all duration-300 group-hover:border-[#E11D2E]/60 group-hover:bg-[#E11D2E]/20">
-                        <Icon size={22} />
-                      </div>
+                    Your car value
+                  </h2>
+                  <p className="mt-3 text-sm leading-6 text-white/55">
+                    A preliminary estimate based on your vehicle information.
+                  </p>
 
-                      <h3 className="text-md font-bold leading-tight text-white sm:text-xl">
-                        {value.title}
-                      </h3>
-                    </div>
-
-                    <p className="text-md mt-5 leading-7 text-zinc-400">
-                      {value.description}
+                  <div className="mt-6 border-y border-[#E31B23] py-6">
+                    <p className="text-sm text-white/55">
+                      Estimated market value
+                    </p>
+                    <p className="mt-3 break-words text-4xl font-light sm:text-5xl">
+                      ₱{estimate.toLocaleString()}
+                    </p>
+                    <p className="mt-2 text-xs text-white/45">
+                      Updates as you type. Subject to inspection.
                     </p>
                   </div>
-                );
-              })}
-            </div>
+
+                  <dl className="mt-5 grid gap-4 text-sm sm:grid-cols-2">
+                    <div>
+                      <dt className="text-xs text-white/45">Market range</dt>
+                      <dd className="mt-1">
+                        ₱{rangeLow.toLocaleString()} to ₱
+                        {rangeHigh.toLocaleString()}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-white/45">
+                        Vehicle condition
+                      </dt>
+                      <dd className="mt-1">{form.condition}</dd>
+                    </div>
+                  </dl>
+
+                  <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-6">
+                    <button
+                      type="submit"
+                      disabled={status === "submitting"}
+                      className={`${btnRed} disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40 disabled:hover:bg-white/10 disabled:hover:text-white/40`}
+                    >
+                      {status === "submitting"
+                        ? "Submitting..."
+                        : "Submit for review"}
+                    </button>
+                    <Link href="/showroom" className={btnLine}>
+                      View showroom
+                    </Link>
+                  </div>
+
+                  {status === "error" && (
+                    <p
+                      role="alert"
+                      className="mt-4 border border-[#FF4D55]/50 bg-[#FF4D55]/10 px-4 py-3 text-sm text-[#FFB3B7]"
+                    >
+                      {errorMessage}
+                    </p>
+                  )}
+                  {status === "success" && (
+                    <p
+                      role="status"
+                      className="mt-4 border border-white/30 px-4 py-3 text-sm"
+                    >
+                      Thanks! Your vehicle details were submitted. Our team will
+                      contact you soon.
+                    </p>
+                  )}
+                  {(status === "idle" || status === "submitting") && (
+                    <p className="mt-4 text-xs leading-5 text-white/45">
+                      Submit your vehicle details for our team to review your
+                      estimate.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </form>
           </div>
         </section>
 
-        <CTA />
+        {/* WHY US */}
+        <section className="border-t border-white/10">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+            <h2
+              className={`${display} max-w-3xl text-2xl font-light uppercase leading-snug tracking-[0.14em] sm:text-3xl`}
+            >
+              A car buying experience built around you
+            </h2>
+            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+              {values.map(({ icon: Icon, title, description }) => (
+                <div
+                  key={title}
+                  className={`${card} p-6 transition-colors hover:border-[#E31B23]`}
+                >
+                  <Icon
+                    size={24}
+                    strokeWidth={1.5}
+                    className="text-[#E31B23]"
+                  />
+                  <h3 className="mt-5 text-lg">{title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/60">
+                    {description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

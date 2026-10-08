@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Auto-Prime Car Trading",
-  "short_name": "Auto-Prime",
-  "description": "Discover quality vehicles for sale at Auto-Prime Car Trading. Browse premium cars, explore detailed specifications, view photos and videos, and inquire about your next vehicle.",
+  "name": "Prime Auto Display Car Trading",
+  "short_name": "Prime Auto Display",
+  "description": "Browse quality pre-owned cars for sale at Prime Auto Display Car Trading in Las Piñas City. See photos and videos, book a test drive, or sell and trade your car.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -10,8 +10,8 @@
   "orientation": "any",
   "lang": "en",
   "dir": "ltr",
-  "background_color": "#000000",
-  "theme_color": "#E11D2E",
+  "background_color": "#0B0B0B",
+  "theme_color": "#E31B23",
   "categories": ["shopping", "business", "autos"],
   "prefer_related_applications": false,
   "related_applications": [],
@@ -41,20 +41,27 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Call, message, or visit our showroom",
+      "url": "/contact",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     }
   ],
   "share_target": {
     "action": "/",
     "method": "GET",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
+    "params": { "title": "title", "text": "text", "url": "url" }
   },
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
+  "edge_side_panel": { "preferred_width": 400 },
   "icons": [
     {
       "src": "/icons/icon-48x48.png",
@@ -135,14 +142,14 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Auto-Prime Car Trading homepage on desktop"
+      "label": "Prime Auto Display Car Trading homepage on desktop"
     },
     {
       "src": "/screenshots/mobile-home.png",
       "sizes": "720x1280",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Auto-Prime Car Trading homepage on mobile"
+      "label": "Prime Auto Display Car Trading homepage on mobile"
     }
   ]
 }

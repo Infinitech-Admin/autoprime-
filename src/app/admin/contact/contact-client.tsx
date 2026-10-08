@@ -31,7 +31,7 @@ import {
 /*  Helpers                                                                   */
 /* -------------------------------------------------------------------------- */
 
-const DEFAULT_SUBJECT = "Re: Your enquiry with AutoTrade";
+const DEFAULT_SUBJECT = "Re: Your enquiry with Auto-Prime Car Trading";
 
 const fullName = (i: Pick<Inquiry, "first_name" | "last_name">) =>
   `${i.first_name} ${i.last_name}`.trim();
@@ -61,9 +61,9 @@ const formatDateTime = (value: string | null | undefined) => {
 };
 
 const STATUS_STYLES: Record<InquiryStatus, string> = {
-  new: "bg-red-500/10 text-red-400",
+  new: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
   read: "bg-zinc-500/15 text-zinc-300",
-  replied: "bg-red-500/10 text-red-400",
+  replied: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
   closed: "bg-zinc-500/15 text-zinc-400",
 };
 
@@ -106,10 +106,10 @@ function Dialog({
       aria-modal="true"
     >
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-[#060606]/70 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/10 bg-[#0d0d0d] p-6 shadow-2xl">
+      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/10 bg-[#060606] p-6 shadow-2xl">
         {children}
       </div>
     </div>,
@@ -388,7 +388,7 @@ export default function ContactClient() {
             onChange={(e) => setSearchInput(e.target.value)}
             maxLength={100}
             placeholder="Search by name, email, phone or vehicle..."
-            className="w-full rounded-xl border border-white/10 bg-[#111111]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#E11D2E]/60"
+            className="w-full rounded-xl border border-white/10 bg-[#111111]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#FF2D2D]/60"
           />
         </div>
 
@@ -406,7 +406,7 @@ export default function ContactClient() {
               }}
               className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium capitalize transition-colors ${
                 statusFilter === status
-                  ? "bg-[#E11D2E]/15 text-[#E11D2E]"
+                  ? "bg-[#FF2D2D]/15 text-[#FFFFFF]"
                   : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
               }`}
             >
@@ -417,14 +417,14 @@ export default function ContactClient() {
       </div>
 
       {error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+        <div className="rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
           {error}
         </div>
       )}
 
       {loading ? (
         <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-[#111111]/70 py-16 text-sm text-zinc-400">
-          <Loader2 size={18} className="mr-2 animate-spin text-[#E11D2E]" />
+          <Loader2 size={18} className="mr-2 animate-spin text-[#FFFFFF]" />
           Loading enquiries...
         </div>
       ) : (
@@ -454,7 +454,7 @@ export default function ContactClient() {
                   >
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#E11D2E]/15 text-[#E11D2E]">
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
                           <Mail size={16} />
                         </span>
                         <div className="min-w-0">
@@ -498,7 +498,7 @@ export default function ContactClient() {
                           onClick={() => openInquiry(i)}
                           title="View enquiry"
                           aria-label={`View enquiry from ${fullName(i)}`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#E11D2E]/50 hover:bg-[#E11D2E]/10 hover:text-[#E11D2E]"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#FF2D2D]/50 hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF]"
                         >
                           <Eye size={14} />
                         </button>
@@ -527,11 +527,11 @@ export default function ContactClient() {
                 key={i.id}
                 type="button"
                 onClick={() => openInquiry(i)}
-                className="rounded-2xl border border-white/10 bg-[#111111]/70 p-4 text-left transition-colors hover:border-[#E11D2E]/40"
+                className="rounded-2xl border border-white/10 bg-[#111111]/70 p-4 text-left transition-colors hover:border-[#FF2D2D]/40"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#E11D2E]/15 text-[#E11D2E]">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
                       <Mail size={18} />
                     </span>
                     <div className="min-w-0">
@@ -632,13 +632,13 @@ export default function ContactClient() {
               </div>
 
               {detailError && (
-                <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                <p className="mt-4 rounded-lg border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-3 py-2 text-xs text-[#FFFFFF]">
                   {detailError}
                 </p>
               )}
 
               {/* Contact details */}
-              <section className="mt-5 rounded-xl border border-white/10 bg-black/20 p-4">
+              <section className="mt-5 rounded-xl border border-white/10 bg-[#060606]/20 p-4">
                 <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                   Customer
                 </h3>
@@ -646,7 +646,7 @@ export default function ContactClient() {
                 <DetailRow label="Email">
                   <a
                     href={`mailto:${selected.email}`}
-                    className="text-[#E11D2E] hover:underline"
+                    className="text-[#FFFFFF] hover:underline"
                   >
                     {selected.email}
                   </a>
@@ -654,7 +654,7 @@ export default function ContactClient() {
                 <DetailRow label="Phone">
                   <a
                     href={`tel:${selected.phone.replace(/[^\d+]/g, "")}`}
-                    className="hover:text-[#E11D2E]"
+                    className="hover:text-[#FFFFFF]"
                   >
                     {selected.phone}
                   </a>
@@ -669,13 +669,13 @@ export default function ContactClient() {
                 <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                   Message
                 </h3>
-                <p className="whitespace-pre-wrap break-words rounded-xl border-l-2 border-[#E11D2E] bg-black/20 px-4 py-3 text-sm leading-6 text-zinc-200">
+                <p className="whitespace-pre-wrap break-words rounded-xl border-l-2 border-[#FF2D2D] bg-[#060606]/20 px-4 py-3 text-sm leading-6 text-zinc-200">
                   {selected.message}
                 </p>
               </section>
 
               {/* Reply by email */}
-              <section className="mt-5 rounded-xl border border-[#E11D2E]/20 bg-black/20 p-4">
+              <section className="mt-5 rounded-xl border border-[#FF2D2D]/20 bg-[#060606]/20 p-4">
                 <h3 className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                   <Send size={13} />
                   Reply by email
@@ -691,7 +691,7 @@ export default function ContactClient() {
                     maxLength={255}
                     disabled={sending}
                     placeholder="Subject"
-                    className="w-full rounded-xl border border-white/10 bg-[#0a0a0a] px-3 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#E11D2E]/60 disabled:opacity-60"
+                    className="w-full rounded-xl border border-white/10 bg-[#060606] px-3 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#FF2D2D]/60 disabled:opacity-60"
                   />
                   <textarea
                     rows={5}
@@ -703,7 +703,7 @@ export default function ContactClient() {
                     maxLength={10000}
                     disabled={sending}
                     placeholder={`Write your reply to ${selected.first_name}...`}
-                    className="w-full resize-none rounded-xl border border-white/10 bg-[#0a0a0a] px-3 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#E11D2E]/60 disabled:opacity-60"
+                    className="w-full resize-none rounded-xl border border-white/10 bg-[#060606] px-3 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#FF2D2D]/60 disabled:opacity-60"
                   />
                 </div>
                 <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -715,7 +715,7 @@ export default function ContactClient() {
                     type="button"
                     onClick={sendReply}
                     disabled={sending || !replyBody.trim()}
-                    className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#E11D2E] to-[#FF3344] px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FF2D2D] to-[#FF5A5A] px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {sending ? (
                       <Loader2 size={15} className="animate-spin" />
@@ -726,19 +726,19 @@ export default function ContactClient() {
                   </button>
                 </div>
                 {replyError && (
-                  <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                  <p className="mt-3 rounded-lg border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-3 py-2 text-xs text-[#FFFFFF]">
                     {replyError}
                   </p>
                 )}
                 {replyNotice && (
-                  <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                  <p className="mt-3 rounded-lg border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-3 py-2 text-xs text-[#FFFFFF]">
                     {replyNotice}
                   </p>
                 )}
               </section>
 
               {/* Reply history */}
-              <section className="mt-5 rounded-xl border border-white/10 bg-black/20 p-4">
+              <section className="mt-5 rounded-xl border border-white/10 bg-[#060606]/20 p-4">
                 <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                   Reply history
                 </h3>
@@ -746,7 +746,7 @@ export default function ContactClient() {
                   <p className="flex items-center gap-2 py-2 text-sm text-zinc-500">
                     <Loader2
                       size={14}
-                      className="animate-spin text-[#E11D2E]"
+                      className="animate-spin text-[#FFFFFF]"
                     />
                     Loading...
                   </p>
@@ -774,7 +774,7 @@ export default function ContactClient() {
               </section>
 
               {/* Update status */}
-              <section className="mt-5 rounded-xl border border-white/10 bg-black/20 p-4">
+              <section className="mt-5 rounded-xl border border-white/10 bg-[#060606]/20 p-4">
                 <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                   Update status
                 </h3>
@@ -787,7 +787,7 @@ export default function ContactClient() {
                       setUpdateNotice("");
                     }}
                     disabled={updating}
-                    className="flex-1 rounded-xl border border-white/10 bg-[#0a0a0a] px-3 py-2.5 text-sm text-white outline-none focus:border-[#E11D2E]/60 disabled:opacity-60"
+                    className="flex-1 rounded-xl border border-white/10 bg-[#060606] px-3 py-2.5 text-sm text-white outline-none focus:border-[#FF2D2D]/60 disabled:opacity-60"
                   >
                     {INQUIRY_STATUSES.map((status) => (
                       <option key={status} value={status}>
@@ -799,7 +799,7 @@ export default function ContactClient() {
                     type="button"
                     onClick={saveStatus}
                     disabled={updating || nextStatus === selected.status}
-                    className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-[#E11D2E]/50 hover:bg-[#E11D2E]/10 hover:text-[#E11D2E] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-[#FF2D2D]/50 hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {updating && <Loader2 size={15} className="animate-spin" />}
                     {updating ? "Saving..." : "Save status"}
@@ -810,12 +810,12 @@ export default function ContactClient() {
                   enquiry marks it as Read.
                 </p>
                 {updateError && (
-                  <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                  <p className="mt-3 rounded-lg border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-3 py-2 text-xs text-[#FFFFFF]">
                     {updateError}
                   </p>
                 )}
                 {updateNotice && (
-                  <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                  <p className="mt-3 rounded-lg border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-3 py-2 text-xs text-[#FFFFFF]">
                     {updateNotice}
                   </p>
                 )}

@@ -1,4 +1,4 @@
-// app/register/page.tsx
+// Path: app/register/page.tsx
 
 "use client";
 
@@ -11,19 +11,17 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  Car,
-  Check,
-  Eye,
-  EyeOff,
-  Loader2,
-  Lock,
-  Mail,
-  Phone,
-  User,
-  X,
-} from "lucide-react";
+import { Check, Eye, EyeOff, Loader2, X } from "lucide-react";
 import { register, type ApiError } from "@/lib/api";
+import {
+  AuthShell,
+  authAlertClass,
+  authButtonClass,
+  authErrorClass,
+  authInputClass,
+  authLabelClass,
+  authLinkClass,
+} from "@/components/auth/auth-shell";
 
 interface RegisterForm {
   name: string;
@@ -33,15 +31,7 @@ interface RegisterForm {
   password_confirmation: string;
 }
 
-interface PasswordRules {
-  length: boolean;
-  lower: boolean;
-  upper: boolean;
-  number: boolean;
-  symbol: boolean;
-}
-
-function checkRules(password: string): PasswordRules {
+function checkRules(password: string) {
   return {
     length: password.length >= 10,
     lower: /[a-z]/.test(password),
@@ -55,25 +45,33 @@ function checkRules(password: string): PasswordRules {
 const EMAIL_REGEX =
   /^(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
-// PH mobile format: exactly 11 digits, must start with "09" (e.g. 09171234567).
+// PH mobile format: exactly 11 digits, must start with "09".
 const PHONE_REGEX = /^09\d{9}$/;
 
 function validateEmail(email: string): string {
-  const trimmed = email.trim();
-  if (!trimmed) return "Email is required.";
-  if (trimmed.length > 254) return "Email is too long.";
-  if (!EMAIL_REGEX.test(trimmed)) return "Enter a valid email address.";
+  const t = email.trim();
+  if (!t) return "Email is required.";
+  if (t.length > 254) return "Email is too long.";
+  if (!EMAIL_REGEX.test(t)) return "Enter a valid email address.";
   return "";
 }
 
 function validatePhone(phone: string): string {
-  const trimmed = phone.trim();
-  if (!trimmed) return ""; // optional field
-  if (!PHONE_REGEX.test(trimmed)) {
-    return "Phone must be exactly 11 digits and start with 09 (e.g. 09171234567).";
+  const t = phone.trim();
+  if (!t) return ""; // optional field
+  if (!PHONE_REGEX.test(t)) {
+    return "Phone must be 11 digits and start with 09 (e.g. 09171234567).";
   }
   return "";
 }
+
+const STRENGTH = [
+  { label: "Too weak", bar: "bg-[#8F1117]" },
+  { label: "Weak", bar: "bg-[#8F1117]" },
+  { label: "Fair", bar: "bg-[#E31B23]" },
+  { label: "Good", bar: "bg-[#E31B23]" },
+  { label: "Strong", bar: "bg-[#FFFFFF]" },
+];
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -90,6 +88,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
 
   const rules = useMemo(() => checkRules(form.password), [form.password]);
+  const score = Object.values(rules).filter(Boolean).length;
   const passwordsMatch =
     form.password_confirmation.length > 0 &&
     form.password === form.password_confirmation;
@@ -98,12 +97,11 @@ export default function RegisterPage() {
     const { name, value } = e.target;
 
     if (name === "phone") {
-      // Digits only, capped at 11 — keeps the field impossible to
-      // overtype past the valid PH mobile length.
-      const digitsOnly = value.replace(/\D/g, "").slice(0, 11);
-      setForm((prev) => ({ ...prev, phone: digitsOnly }));
+      // Digits only, capped at 11.
+      const digits = value.replace(/\D/g, "").slice(0, 11);
+      setForm((prev) => ({ ...prev, phone: digits }));
       if (errors.phone) {
-        setErrors((prev) => ({ ...prev, phone: validatePhone(digitsOnly) }));
+        setErrors((prev) => ({ ...prev, phone: validatePhone(digits) }));
       }
       return;
     }
@@ -111,6 +109,8 @@ export default function RegisterPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
     if (name === "email" && errors.email) {
       setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
+    } else if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   }
 
@@ -130,13 +130,8 @@ export default function RegisterPage() {
 
     const emailError = validateEmail(form.email);
     const phoneError = validatePhone(form.phone);
-
     if (emailError || phoneError) {
-      setErrors((prev) => ({
-        ...prev,
-        ...(emailError ? { email: emailError } : { email: "" }),
-        ...(phoneError ? { phone: phoneError } : { phone: "" }),
-      }));
+      setErrors({ email: emailError, phone: phoneError });
       return;
     }
 
@@ -152,9 +147,8 @@ export default function RegisterPage() {
       const apiErr = err as ApiError;
       if (apiErr.errors) {
         const fieldErrors: Record<string, string> = {};
-        for (const key in apiErr.errors) {
+        for (const key in apiErr.errors)
           fieldErrors[key] = apiErr.errors[key][0];
-        }
         setErrors(fieldErrors);
       } else {
         setFormError(
@@ -166,268 +160,218 @@ export default function RegisterPage() {
     }
   }
 
-  const inputClass =
-    "w-full rounded-lg border border-zinc-800 bg-black py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-600 outline-none transition-colors focus:border-red-600 focus:ring-2 focus:ring-red-600/30";
-
-  const labelClass = "mb-1.5 block text-sm font-medium text-zinc-300";
-
-  const iconClass =
-    "pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500";
-
   return (
-    <main className="relative flex min-h-screen overflow-hidden bg-black">
-      {/* The one bold moment: a red racing stripe cutting across the page */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-1/4 top-0 h-full w-[60%] -skew-x-12 bg-gradient-to-br from-red-700 via-red-600 to-red-950 lg:left-[-8%] lg:w-[48%]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-1/4 top-0 hidden h-full w-[3px] -skew-x-12 bg-red-500 lg:left-[40%] lg:block"
-      />
+    <AuthShell
+      headline="Start your engine."
+      blurb="Create an account to save cars, reserve a vehicle and sell or trade in your own."
+    >
+      <form onSubmit={handleSubmit} noValidate>
+        <h1 className="text-3xl font-black uppercase leading-none text-white">
+          Create your account
+        </h1>
+        <p className="mb-7 mt-3 text-sm text-white/60">
+          It takes about a minute. We&apos;ll email you a code to verify.
+        </p>
 
-      {/* Brand panel (desktop) */}
-      <section className="relative z-10 hidden w-1/2 flex-col justify-between p-12 lg:flex">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-        >
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-black text-red-500">
-            <Car size={20} />
-          </span>
-          <span className="text-xl font-black tracking-tight">AutoPrime</span>
-        </Link>
+        {formError && (
+          <div role="alert" className={authAlertClass}>
+            {formError}
+          </div>
+        )}
 
-        <div className="max-w-sm">
-          <h2 className="text-5xl font-black leading-[1.05] tracking-tight text-white">
-            Start your engine.
-          </h2>
-          <p className="mt-4 text-base text-red-100/90">
-            Create an account to save listings, track offers and sell or trade
-            in your car.
-          </p>
+        <div className="mb-5">
+          <label htmlFor="name" className={authLabelClass}>
+            Full name
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autoComplete="name"
+            required
+            value={form.name}
+            onChange={handleChange}
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? "name-error" : undefined}
+            className={authInputClass}
+            placeholder="Juan Dela Cruz"
+          />
+          {errors.name && (
+            <p id="name-error" className={authErrorClass}>
+              {errors.name}
+            </p>
+          )}
         </div>
-      </section>
 
-      {/* Form panel */}
-      <section className="relative z-10 flex w-full items-center justify-center px-4 py-16 lg:w-1/2">
-        <div className="w-full max-w-md">
-          {/* Brand (mobile) */}
-          <div className="mb-8 text-center lg:hidden">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-2xl font-black tracking-tight text-white"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-600/15 text-red-500">
-                <Car size={20} />
-              </span>
-              AutoPrime
-            </Link>
+        <div className="mb-5 grid gap-5 sm:grid-cols-2">
+          <div>
+            <label htmlFor="email" className={authLabelClass}>
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              value={form.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "email-error" : undefined}
+              className={authInputClass}
+              placeholder="you@example.com"
+            />
+            {errors.email && (
+              <p id="email-error" className={authErrorClass}>
+                {errors.email}
+              </p>
+            )}
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            noValidate
-            className="rounded-2xl border border-zinc-800 bg-black p-6 shadow-[0_0_0_1px_rgba(220,38,38,0.15),0_30px_80px_rgba(220,38,38,0.18)] sm:p-8"
-          >
-            <h1 className="mb-1 text-2xl font-bold text-white">
-              Create your account
-            </h1>
-            <p className="mb-6 text-sm text-zinc-400">
-              Join AutoPrime in a few quick steps.
-            </p>
-
-            {formError && (
-              <div
-                role="alert"
-                className="mb-5 rounded-lg border border-red-600/40 bg-red-600/10 px-4 py-3 text-sm text-red-300"
-              >
-                {formError}
-              </div>
+          <div>
+            <label htmlFor="phone" className={authLabelClass}>
+              Phone{" "}
+              <span className="font-normal text-white/45">(optional)</span>
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel"
+              maxLength={11}
+              value={form.phone}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
+              className={authInputClass}
+              placeholder="09171234567"
+            />
+            {errors.phone && (
+              <p id="phone-error" className={authErrorClass}>
+                {errors.phone}
+              </p>
             )}
-
-            {/* Name */}
-            <div className="mb-4">
-              <label htmlFor="name" className={labelClass}>
-                Full name
-              </label>
-              <div className="relative">
-                <User size={17} className={iconClass} />
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  value={form.name}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="Juan Dela Cruz"
-                />
-              </div>
-              {errors.name && (
-                <p className="mt-1.5 text-xs text-red-400">{errors.name}</p>
-              )}
-            </div>
-
-            {/* Phone */}
-            <div className="mb-4">
-              <label htmlFor="phone" className={labelClass}>
-                Phone <span className="text-zinc-600">(optional)</span>
-              </label>
-              <div className="relative">
-                <Phone size={17} className={iconClass} />
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  inputMode="numeric"
-                  autoComplete="tel"
-                  maxLength={11}
-                  pattern="09\d{9}"
-                  value={form.phone}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={inputClass}
-                  placeholder="09171234567"
-                />
-              </div>
-              {errors.phone && (
-                <p className="mt-1.5 text-xs text-red-400">{errors.phone}</p>
-              )}
-            </div>
-
-            {/* Email */}
-            <div className="mb-4">
-              <label htmlFor="email" className={labelClass}>
-                Email
-              </label>
-              <div className="relative">
-                <Mail size={17} className={iconClass} />
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={form.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={inputClass}
-                  placeholder="you@example.com"
-                />
-              </div>
-              {errors.email && (
-                <p className="mt-1.5 text-xs text-red-400">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Password */}
-            <div className="mb-3">
-              <label htmlFor="password" className={labelClass}>
-                Password
-              </label>
-              <div className="relative">
-                <Lock size={17} className={iconClass} />
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  required
-                  value={form.password}
-                  onChange={handleChange}
-                  className={`${inputClass} pr-11`}
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="mt-1.5 text-xs text-red-400">{errors.password}</p>
-              )}
-
-              {form.password.length > 0 && (
-                <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
-                  <RuleItem met={rules.length}>10+ characters</RuleItem>
-                  <RuleItem met={rules.upper && rules.lower}>
-                    Upper &amp; lowercase
-                  </RuleItem>
-                  <RuleItem met={rules.number}>A number</RuleItem>
-                  <RuleItem met={rules.symbol}>A symbol</RuleItem>
-                </ul>
-              )}
-            </div>
-
-            {/* Confirm password */}
-            <div className="mb-6">
-              <label htmlFor="password_confirmation" className={labelClass}>
-                Confirm password
-              </label>
-              <div className="relative">
-                <Lock size={17} className={iconClass} />
-                <input
-                  id="password_confirmation"
-                  name="password_confirmation"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  required
-                  value={form.password_confirmation}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="••••••••"
-                />
-              </div>
-              {form.password_confirmation.length > 0 && !passwordsMatch && (
-                <p className="mt-1.5 text-xs text-red-400">
-                  Passwords do not match.
-                </p>
-              )}
-              {errors.password_confirmation && (
-                <p className="mt-1.5 text-xs text-red-400">
-                  {errors.password_confirmation}
-                </p>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-600 py-3.5 text-sm font-bold text-white transition-colors hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {loading && <Loader2 size={16} className="animate-spin" />}
-              {loading ? "Creating account..." : "Create Account"}
-            </button>
-
-            <p className="mt-6 text-center text-sm text-zinc-400">
-              Already have an account?{" "}
-              <Link
-                href="/login"
-                className="font-semibold text-red-500 hover:text-red-400"
-              >
-                Sign in
-              </Link>
-            </p>
-          </form>
+          </div>
         </div>
-      </section>
-    </main>
+
+        <div className="mb-5">
+          <label htmlFor="password" className={authLabelClass}>
+            Password
+          </label>
+          <div className="relative">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
+              required
+              value={form.password}
+              onChange={handleChange}
+              aria-invalid={!!errors.password}
+              aria-describedby={errors.password ? "password-error" : undefined}
+              className={`${authInputClass} pr-12`}
+              placeholder="Create a password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-white/60 transition-colors hover:text-[#E31B23] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#E31B23]"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+          {errors.password && (
+            <p id="password-error" className={authErrorClass}>
+              {errors.password}
+            </p>
+          )}
+
+          {form.password.length > 0 && (
+            <div className="mt-3 bg-[#0A0A0A] p-3 text-sm">
+              <div className="flex items-center gap-3">
+                <div className="flex flex-1 gap-1" aria-hidden>
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <span
+                      key={i}
+                      className={`h-1.5 flex-1 ${i < score ? STRENGTH[score - 1].bar : "bg-white/10"}`}
+                    />
+                  ))}
+                </div>
+                <span className="w-16 text-right text-xs font-bold text-white/80">
+                  {score === 0 ? STRENGTH[0].label : STRENGTH[score - 1].label}
+                </span>
+              </div>
+              <ul className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1.5">
+                <RuleItem met={rules.length}>10+ characters</RuleItem>
+                <RuleItem met={rules.upper && rules.lower}>
+                  Upper &amp; lowercase
+                </RuleItem>
+                <RuleItem met={rules.number}>A number</RuleItem>
+                <RuleItem met={rules.symbol}>A symbol</RuleItem>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <div className="mb-7">
+          <label htmlFor="password_confirmation" className={authLabelClass}>
+            Confirm password
+          </label>
+          <input
+            id="password_confirmation"
+            name="password_confirmation"
+            type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
+            required
+            value={form.password_confirmation}
+            onChange={handleChange}
+            aria-invalid={
+              (form.password_confirmation.length > 0 && !passwordsMatch) ||
+              !!errors.password_confirmation
+            }
+            className={authInputClass}
+            placeholder="Re-enter your password"
+          />
+          {form.password_confirmation.length > 0 && !passwordsMatch && (
+            <p className={authErrorClass}>Passwords do not match.</p>
+          )}
+          {errors.password_confirmation && (
+            <p className={authErrorClass}>{errors.password_confirmation}</p>
+          )}
+        </div>
+
+        <button type="submit" disabled={loading} className={authButtonClass}>
+          {loading && <Loader2 size={16} className="animate-spin" />}
+          {loading ? "Creating account..." : "Create account"}
+        </button>
+
+        <p className="mt-7 border-t border-white/10 pt-6 text-center text-sm text-white/65">
+          Already have an account?{" "}
+          <Link href="/login" className={authLinkClass}>
+            Sign in
+          </Link>
+        </p>
+      </form>
+    </AuthShell>
   );
 }
 
 function RuleItem({ met, children }: { met: boolean; children: ReactNode }) {
   return (
     <li
-      className={`flex items-center gap-1.5 ${met ? "text-red-400" : "text-zinc-500"}`}
+      className={`flex items-center gap-1.5 ${met ? "font-semibold text-white" : "text-white/50"}`}
     >
-      {met ? <Check size={13} /> : <X size={13} />}
+      {met ? (
+        <Check size={14} aria-hidden className="text-[#E31B23]" />
+      ) : (
+        <X size={14} aria-hidden />
+      )}
       {children}
+      <span className="sr-only">{met ? " (met)" : " (not met)"}</span>
     </li>
   );
 }

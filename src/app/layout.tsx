@@ -1,29 +1,38 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
+import { Inter, Rajdhani } from "next/font/google";
+
 import "./globals.css";
+
 import { AuthProvider } from "@/context/auth-context";
 import { CartProvider } from "@/context/cart-context";
-import FloatingSocial from "@/components/floating-social";
 import ChatWidget from "@/components/chat-widget";
+import FloatingSocial from "@/components/floating-social";
+import AnimatedSplash from "@/components/animated-splash";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Squared, techy headings that match the "Auto-Prime Car Trading" lettering on the logo
+const rajdhani = Rajdhani({
+  variable: "--font-rajdhani",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "AutoPrime | Premium Cars for Sale",
-    template: "%s | AutoPrime",
+    default: "Auto-Prime Car Trading | Cars for Sale",
+    template: "%s | Auto-Prime Car Trading",
   },
+
   description:
-    "Discover quality vehicles for sale. Browse premium cars, explore detailed specifications, view photos and videos, and inquire about your next vehicle.",
+    "Discover quality vehicles for sale at Auto-Prime Car Trading. Browse premium cars, explore detailed specifications, view photos and videos, and inquire about your next vehicle.",
+
   keywords: [
+    "Auto-Prime Car Trading",
     "cars for sale",
     "used cars",
     "pre-owned cars",
@@ -33,9 +42,10 @@ export const metadata: Metadata = {
     "automotive",
     "premium cars",
   ],
-  authors: [{ name: "AutoTrade" }],
-  creator: "AutoTrade",
-  publisher: "AutoTrade",
+
+  authors: [{ name: "Auto-Prime Car Trading" }],
+  creator: "Auto-Prime Car Trading",
+  publisher: "Auto-Prime Car Trading",
 
   robots: {
     index: true,
@@ -47,21 +57,21 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "AutoTrade",
+    title: "Auto-Prime Car Trading",
   },
 
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "AutoTrade | Premium Cars for Sale",
+    title: "Auto-Prime Car Trading | Cars for Sale",
     description:
       "Explore quality vehicles with detailed specifications, photos, videos, and easy inquiry options.",
-    siteName: "AutoTrade",
+    siteName: "Auto-Prime Car Trading",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "AutoTrade | Premium Cars for Sale",
+    title: "Auto-Prime Car Trading | Cars for Sale",
     description:
       "Find your next vehicle. Browse our latest inventory and explore every car in detail.",
   },
@@ -76,7 +86,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#E11D2E",
+  themeColor: "#0A0A0A",
 };
 
 export default function RootLayout({
@@ -87,19 +97,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${rajdhani.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-black text-white">
+      <body className="min-h-full flex flex-col bg-white text-[#0A0A0A]">
         <AuthProvider>
           <CartProvider>
             {children}
-            <FloatingSocial
-              facebookHref="https://www.facebook.com/autoprimecartrading/"
-              chatHref="#"
-              telegramHref="https://t.me/autotrade"
-              email="info@autotrade.com"
-              phone="+10000000000"
-            />
+            <AnimatedSplash />
+            <FloatingSocial />
             <ChatWidget />
           </CartProvider>
         </AuthProvider>

@@ -45,7 +45,7 @@ const STEPS = [
 ] as const;
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-[#0a0a0a]/60 px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#E11D2E]/60";
+  "w-full rounded-xl border border-white/10 bg-[#060606]/60 px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#FF2D2D]/60";
 
 function Field({
   label,
@@ -87,7 +87,7 @@ function GalleryTile({
   const poster = media.poster ? resolveMediaUrl(media.poster, baseUrl) : "";
 
   return (
-    <div className="group relative aspect-video overflow-hidden rounded-lg border border-white/10 bg-[#0a0a0a]">
+    <div className="group relative aspect-video overflow-hidden rounded-lg border border-white/10 bg-[#060606]">
       {!isVideo || poster ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -108,10 +108,10 @@ function GalleryTile({
 
       {isVideo && (
         <>
-          <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/30">
+          <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#060606]/30">
             <Play size={18} className="fill-white text-white" />
           </span>
-          <span className="pointer-events-none absolute bottom-1 left-1 rounded bg-black/70 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">
+          <span className="pointer-events-none absolute bottom-1 left-1 rounded bg-[#060606]/70 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">
             Video
           </span>
         </>
@@ -120,7 +120,7 @@ function GalleryTile({
       <button
         type="button"
         onClick={onDelete}
-        className="absolute right-1 top-1 hidden rounded-full bg-black/70 p-1 text-white group-hover:block"
+        className="absolute right-1 top-1 hidden rounded-full bg-[#060606]/70 p-1 text-white group-hover:block"
         aria-label="Remove"
       >
         <Trash2 size={12} />
@@ -154,7 +154,7 @@ function ConfirmDeleteDialog({
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-[#060606]/70 p-4 backdrop-blur-sm"
       onClick={() => {
         if (!deleting) onCancel();
       }}
@@ -166,12 +166,12 @@ function ConfirmDeleteDialog({
         aria-labelledby="confirm-delete-title"
         aria-describedby="confirm-delete-desc"
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-sm overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0d] shadow-2xl"
+        className="w-full max-w-sm overflow-hidden rounded-2xl border border-white/10 bg-[#060606] shadow-2xl"
       >
         <div className="px-6 pt-6">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/15">
-              <AlertTriangle size={20} className="text-red-400" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FF2D2D]/15">
+              <AlertTriangle size={20} className="text-[#FFFFFF]" />
             </div>
             <div>
               <h3
@@ -191,7 +191,7 @@ function ConfirmDeleteDialog({
           </div>
 
           {/* Preview of what's being deleted */}
-          <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border border-white/10 bg-[#0a0a0a]">
+          <div className="mt-4 aspect-video w-full overflow-hidden rounded-lg border border-white/10 bg-[#060606]">
             {!isVideo || poster ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -224,7 +224,7 @@ function ConfirmDeleteDialog({
             type="button"
             onClick={onConfirm}
             disabled={deleting}
-            className="flex items-center gap-2 rounded-full bg-red-600 px-5 py-2 text-sm font-bold text-white hover:bg-red-700 disabled:opacity-60"
+            className="flex items-center gap-2 rounded-full bg-[#FF2D2D] px-5 py-2 text-sm font-bold text-white hover:bg-[#A8161F] disabled:opacity-60"
           >
             {deleting && <Loader2 size={15} className="animate-spin" />}
             {deleting ? "Removing..." : "Yes, remove"}
@@ -465,8 +465,8 @@ export default function VehicleFormDrawer({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-[#0d0d0d] shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#060606]/60 p-4 backdrop-blur-sm">
+      <div className="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-[#060606] shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
           <h2 className="text-lg font-bold text-white">
@@ -496,9 +496,9 @@ export default function VehicleFormDrawer({
                 disabled={s.id > step}
                 className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors ${
                   s.id === step
-                    ? "bg-[#E11D2E] text-white"
+                    ? "bg-[#FF2D2D] text-white"
                     : s.id < step
-                      ? "bg-[#E11D2E]/20 text-[#E11D2E] cursor-pointer"
+                      ? "bg-[#FF2D2D]/20 text-[#FFFFFF] cursor-pointer"
                       : "bg-white/5 text-zinc-500"
                 }`}
               >
@@ -514,7 +514,7 @@ export default function VehicleFormDrawer({
               {i < STEPS.length - 1 && (
                 <div
                   className={`h-px flex-1 ${
-                    s.id < step ? "bg-[#E11D2E]/40" : "bg-white/10"
+                    s.id < step ? "bg-[#FF2D2D]/40" : "bg-white/10"
                   }`}
                 />
               )}
@@ -528,7 +528,7 @@ export default function VehicleFormDrawer({
         >
           <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6">
             {error && (
-              <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+              <div className="rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
                 {error}
               </div>
             )}
@@ -562,7 +562,7 @@ export default function VehicleFormDrawer({
                     className={inputClass}
                   >
                     {VEHICLE_TYPES.map((t) => (
-                      <option key={t} value={t} className="bg-[#0a0a0a]">
+                      <option key={t} value={t} className="bg-[#060606]">
                         {t}
                       </option>
                     ))}
@@ -606,7 +606,7 @@ export default function VehicleFormDrawer({
                       <option
                         key={s}
                         value={s}
-                        className="bg-[#0a0a0a] capitalize"
+                        className="bg-[#060606] capitalize"
                       >
                         {s}
                       </option>
@@ -703,7 +703,7 @@ export default function VehicleFormDrawer({
                     Cover image
                   </label>
                   <div className="flex items-center gap-3">
-                    <div className="flex h-20 w-28 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a]">
+                    <div className="flex h-20 w-28 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-[#060606]">
                       {imagePreview ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -723,12 +723,12 @@ export default function VehicleFormDrawer({
                           const file = e.target.files?.[0];
                           if (file) handleImageSelect(file);
                         }}
-                        className="block w-full text-xs text-zinc-400 file:mr-3 file:rounded-full file:border-0 file:bg-[#E11D2E]/15 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#E11D2E]"
+                        className="block w-full text-xs text-zinc-400 file:mr-3 file:rounded-full file:border-0 file:bg-[#FF2D2D]/15 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#FFFFFF]"
                       />
                       {imageUploadPercent !== null && (
                         <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
                           <div
-                            className="h-full bg-[#E11D2E] transition-all"
+                            className="h-full bg-[#FF2D2D] transition-all"
                             style={{ width: `${imageUploadPercent}%` }}
                           />
                         </div>
@@ -757,12 +757,12 @@ export default function VehicleFormDrawer({
                         if (e.target.files) handleGalleryFiles(e.target.files);
                         e.target.value = "";
                       }}
-                      className="mb-3 block w-full text-xs text-zinc-400 file:mr-3 file:rounded-full file:border-0 file:bg-[#E11D2E]/15 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#E11D2E]"
+                      className="mb-3 block w-full text-xs text-zinc-400 file:mr-3 file:rounded-full file:border-0 file:bg-[#FF2D2D]/15 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#FFFFFF]"
                     />
                   )}
 
                   {galleryUploading && (
-                    <div className="mb-3 rounded-lg border border-white/10 bg-[#0a0a0a] px-3 py-2 text-xs text-zinc-400">
+                    <div className="mb-3 rounded-lg border border-white/10 bg-[#060606] px-3 py-2 text-xs text-zinc-400">
                       <div className="mb-1 flex items-center justify-between">
                         <span className="truncate">
                           {galleryUploading.name}
@@ -771,7 +771,7 @@ export default function VehicleFormDrawer({
                       </div>
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
                         <div
-                          className="h-full bg-[#E11D2E] transition-all"
+                          className="h-full bg-[#FF2D2D] transition-all"
                           style={{ width: `${galleryUploading.percent}%` }}
                         />
                       </div>
@@ -806,7 +806,7 @@ export default function VehicleFormDrawer({
             <button
               type="submit"
               disabled={saving}
-              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-[#E11D2E] to-[#FF3344] px-5 py-2.5 text-sm font-bold text-white disabled:opacity-60"
+              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF2D2D] to-[#FF5A5A] px-5 py-2.5 text-sm font-bold text-white disabled:opacity-60"
             >
               {saving && <Loader2 size={15} className="animate-spin" />}
               {isLastStep

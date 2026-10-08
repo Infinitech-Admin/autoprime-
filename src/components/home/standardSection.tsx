@@ -1,116 +1,85 @@
-"use client";
-
 import {
-    ShieldCheck,
-    Tags,
-    CreditCard,
-    RefreshCw,
-    Zap,
-    Users,
+  ShieldCheck,
+  Tags,
+  CreditCard,
+  RefreshCw,
+  Zap,
+  Users,
 } from "lucide-react";
 
 const standards = [
-    {
-        icon: ShieldCheck,
-        title: "Quality Inspected",
-        description: "Multi-point checks before every vehicle is listed.",
-    },
-    {
-        icon: Tags,
-        title: "Transparent Pricing",
-        description: "Clear figures with no unnecessary surprises.",
-    },
-    {
-        icon: CreditCard,
-        title: "Financing Options",
-        description: "Flexible plans tailored to your budget.",
-    },
-    {
-        icon: RefreshCw,
-        title: "Trade-In Available",
-        description: "A straightforward path when you're ready to upgrade.",
-    },
-    {
-        icon: Zap,
-        title: "Fast Transactions",
-        description: "Efficient paperwork with dedicated support.",
-    },
-    {
-        icon: Users,
-        title: "Trusted Experts",
-        description: "Guidance from experienced automotive specialists.",
-    },
+  {
+    icon: ShieldCheck,
+    title: "Quality inspected",
+    description: "Multi-point checks before every vehicle is listed.",
+  },
+  {
+    icon: Tags,
+    title: "Transparent pricing",
+    description: "Clear figures with no unnecessary surprises.",
+  },
+  {
+    icon: CreditCard,
+    title: "Financing options",
+    description: "Flexible plans tailored to your budget.",
+  },
+  {
+    icon: RefreshCw,
+    title: "Trade-in available",
+    description: "A straightforward path when you're ready to upgrade.",
+  },
+  {
+    icon: Zap,
+    title: "Fast transactions",
+    description: "Efficient paperwork with dedicated support.",
+  },
+  {
+    icon: Users,
+    title: "Trusted experts",
+    description: "Guidance from experienced automotive specialists.",
+  },
 ];
+
+/*
+  Light section between dark ones: white page, black icon blocks, red accents.
+  Left-aligned heading with the same red bar used on the other pages.
+*/
 export default function StandardSection() {
-    return (
-        <>
-            <section className="relative overflow-hidden bg-[var(--page-bg)] py-20 text-[var(--foreground)]">
-                {/* Content */}
-                <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-                    {/* Section Heading */}
-                    <div className="mx-auto max-w-3xl text-center">
-                        <div className="mb-5 flex items-center justify-center gap-3">
-                            <span className="h-px w-10 bg-[#E11D2E]" />
-                            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                                AutoTrade Standard
-                            </span>
-                            <span className="h-px w-10 bg-[#E11D2E]" />
-                        </div>
+  return (
+    <section className="bg-white py-16 text-[#0A0A0A] lg:py-24">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-end">
+          <div className="border-l-8 border-[#E31B23] pl-5 sm:pl-7">
+            <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl">
+              Trust, built into every detail.
+            </h2>
+          </div>
 
-                        <h2 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
-                            Trust, built into
-                            <span className="block text-[#E11D2E]">
-                                every detail.
-                            </span>
-                        </h2>
+          <p className="max-w-xl text-base leading-7 text-[#0A0A0A]/70">
+            Every car and every conversation at Auto-Prime Car Trading is
+            handled to the same standard, from the first message to the day you
+            drive away.
+          </p>
+        </div>
 
-                        <p className="mt-5 text-sm leading-7 text-zinc-400 sm:text-base">
-                            Every vehicle and every conversation is handled
-                            with the same uncompromising standard.
-                        </p>
-                    </div>
+        {/* Six standards: open grid with a red rule over each one */}
+        <ul className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {standards.map(({ icon: Icon, title, description }) => (
+            <li key={title} className="border-t-4 border-[#0A0A0A] pt-6">
+              <div className="flex items-center gap-4">
+                <span className="chamfer flex size-12 shrink-0 items-center justify-center bg-[#0A0A0A]">
+                  <Icon className="size-6 text-[#E31B23]" />
+                </span>
+                <h3 className="text-xl font-bold">{title}</h3>
+              </div>
 
-                    {/* Standards Grid */}
-                    <div className="mt-12 grid overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md sm:grid-cols-2 lg:grid-cols-3">
-                        {standards.map((item, index) => {
-                            const Icon = item.icon;
-
-                            return (
-                                <div
-                                    key={item.title}
-                                    className={`group relative border-white/10 p-7 transition-all duration-300 hover:bg-white/[0.07] md:p-8 ${index < 3
-                                        ? "border-b"
-                                        : "border-b sm:border-b-0"
-                                        } ${index % 3 !== 2
-                                            ? "lg:border-r"
-                                            : ""
-                                        } ${index % 2 === 0
-                                            ? "sm:border-r lg:border-r"
-                                            : "sm:border-r-0"
-                                        }`}
-                                >
-                                    {/* Icon */}
-                                    <div className="flex size-12 items-center justify-center rounded-xl border border-[#E11D2E]/30 bg-[#E11D2E]/10 transition-all duration-300 group-hover:border-[#E11D2E]/60 group-hover:bg-[#E11D2E]/20">
-                                        <Icon className="size-6 text-[#E11D2E]" />
-                                    </div>
-
-                                    {/* Content */}
-                                    <h3 className="mt-6 font-display text-xl font-semibold text-white">
-                                        {item.title}
-                                    </h3>
-
-                                    <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-400">
-                                        {item.description}
-                                    </p>
-
-                                    {/* Hover accent */}
-                                    <div className="absolute bottom-0 left-0 h-px w-0 bg-[#E11D2E] transition-all duration-500 group-hover:w-full" />
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </section>
-        </>
-    );
+              <p className="mt-4 max-w-sm text-sm leading-6 text-[#0A0A0A]/70">
+                {description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
 }

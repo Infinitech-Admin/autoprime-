@@ -1,19 +1,22 @@
+// Path: app/orders/page.tsx
+
 "use client";
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import {
-  ArrowRight,
-  Check,
-  Clock,
-  ExternalLink,
-  RefreshCw,
-  ShoppingBag,
-  X,
-} from "lucide-react";
+import { Check, Clock, ExternalLink, RefreshCw, X } from "lucide-react";
 
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import {
+  btnLine,
+  btnRed,
+  card,
+  display,
+  focus,
+  PageHero,
+  StateBox,
+} from "@/components/ui/prime";
 import { useAuth } from "@/context/auth-context";
 import { apiRequest, isAbortError } from "@/lib/api";
 
@@ -43,11 +46,10 @@ type Order = {
   }[];
 };
 
-const LOGIN_HREF = "/login"; // ADJUST if your login page lives elsewhere
+const LOGIN_HREF = "/login";
 
-const formatPrice = (value: number) =>
-  `₱${value.toLocaleString("en-PH", { maximumFractionDigits: 0 })}`;
-
+const formatPrice = (v: number) =>
+  `₱${v.toLocaleString("en-PH", { maximumFractionDigits: 0 })}`;
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-PH", {
     year: "numeric",
@@ -67,85 +69,72 @@ const STATUS_META: Record<
 > = {
   pending_verification: {
     label: "Verifying payment",
-    badge: "border-red-400/40 bg-red-400/10 text-red-300",
+    badge: "border-[#E31B23] text-[#E31B23]",
     message:
       "We received your order and are checking your payment screenshot. We'll contact you once it's verified.",
   },
   confirmed: {
     label: "Confirmed",
-    badge: "border-red-400/40 bg-red-400/10 text-red-300",
+    badge: "border-white bg-white text-black",
     message:
       "Your payment is verified. A sales advisor will contact you about the next steps.",
   },
   rejected: {
     label: "Payment issue",
-    badge: "border-red-400/40 bg-red-400/10 text-red-300",
+    badge: "border-[#FF4D55] text-[#FF4D55]",
     message:
       "We couldn't verify your payment. Please contact us and send a clearer screenshot.",
   },
   cancelled: {
     label: "Cancelled",
-    badge: "border-zinc-500/40 bg-zinc-500/10 text-zinc-300",
+    badge: "border-white/25 text-white/60",
     message: "This order was cancelled.",
   },
 };
 
 type StepState = "done" | "current" | "failed" | "todo";
+const STEP_LABELS = ["Order placed", "Payment check", "Order confirmed"];
 
-const STEP_LABELS = ["Order placed", "Payment verification", "Order confirmed"];
-
-function stepStates(status: OrderStatus): StepState[] {
-  switch (status) {
-    case "confirmed":
-      return ["done", "done", "done"];
-    case "rejected":
-      return ["done", "failed", "todo"];
-    default:
-      return ["done", "current", "todo"];
-  }
-}
+const stepStates = (s: OrderStatus): StepState[] =>
+  s === "confirmed"
+    ? ["done", "done", "done"]
+    : s === "rejected"
+      ? ["done", "failed", "todo"]
+      : ["done", "current", "todo"];
 
 function Tracker({ status }: { status: OrderStatus }) {
   const states = stepStates(status);
-
   return (
     <ol className="grid grid-cols-3 gap-2">
       {STEP_LABELS.map((label, i) => {
-        const state = states[i];
-        const lineActive =
-          i > 0 && states[i - 1] === "done" && state !== "todo";
-
+        const st = states[i];
+        const lineOn = i > 0 && states[i - 1] === "done" && st !== "todo";
         const circle =
-          state === "done"
-            ? "border-[#E11D2E] bg-[#E11D2E] text-black"
-            : state === "current"
-              ? "border-[#E11D2E] bg-[#E11D2E]/10 text-[#F3D77A]"
-              : state === "failed"
-                ? "border-red-400 bg-red-400/10 text-red-300"
-                : "border-white/15 bg-black/30 text-zinc-600";
-
+          st === "done"
+            ? "border-[#E31B23] bg-[#E31B23] text-white"
+            : st === "current"
+              ? "border-[#E31B23] text-[#E31B23]"
+              : st === "failed"
+                ? "border-[#FF4D55] text-[#FF4D55]"
+                : "border-white/20 text-white/40";
         return (
           <li key={label} className="relative flex flex-col items-center">
             {i > 0 && (
               <span
                 aria-hidden
-                className={`absolute right-1/2 top-4 h-0.5 w-full ${
-                  lineActive ? "bg-[#E11D2E]" : "bg-white/10"
-                }`}
+                className={`absolute right-1/2 top-4 h-px w-full ${lineOn ? "bg-[#E31B23]" : "bg-white/10"}`}
               />
             )}
             <span
-              className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full border ${circle}`}
+              className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-[#1E1E1E] ${circle}`}
             >
-              {state === "done" && <Check size={15} strokeWidth={3} />}
-              {state === "current" && <Clock size={15} />}
-              {state === "failed" && <X size={15} strokeWidth={3} />}
-              {state === "todo" && <span className="text-xs">{i + 1}</span>}
+              {st === "done" && <Check size={15} />}
+              {st === "current" && <Clock size={15} />}
+              {st === "failed" && <X size={15} />}
+              {st === "todo" && <span className="text-xs">{i + 1}</span>}
             </span>
             <span
-              className={`mt-2 text-center text-[11px] font-medium leading-4 sm:text-xs ${
-                state === "todo" ? "text-zinc-600" : "text-zinc-300"
-              }`}
+              className={`mt-2 text-center text-xs leading-4 ${st === "todo" ? "text-white/40" : "text-white/80"}`}
             >
               {label}
             </span>
@@ -156,44 +145,47 @@ function Tracker({ status }: { status: OrderStatus }) {
   );
 }
 
+function Row({ k, v, strong }: { k: string; v: string; strong?: boolean }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-white/60">{k}</span>
+      <span className={strong ? "text-[#E31B23]" : ""}>{v}</span>
+    </div>
+  );
+}
+
 function OrderCard({ order }: { order: Order }) {
   const meta = STATUS_META[order.status] ?? STATUS_META.pending_verification;
-
   return (
-    <article className="rounded-[28px] border border-white/10 bg-[#120f0d] p-5 sm:p-7">
-      {/* Header */}
+    <article className={`${card} p-5 sm:p-7`}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
-            Order
-          </p>
-          <h2 className="mt-1 text-lg font-bold text-white sm:text-xl">
-            {order.order_number}
-          </h2>
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className="text-sm text-white/50">
             Placed on {formatDate(order.created_at)}
           </p>
+          <h2
+            className={`${display} mt-1 text-xl font-light uppercase tracking-[0.12em]`}
+          >
+            {order.order_number}
+          </h2>
         </div>
-
         <span
-          className={`rounded-full border px-3 py-1 text-xs font-semibold ${meta.badge}`}
+          className={`border px-3 py-1.5 text-xs tracking-[0.12em] ${meta.badge}`}
         >
           {meta.label}
         </span>
       </div>
 
-      {/* Tracker */}
       {order.status !== "cancelled" && (
         <div className="mt-6">
           <Tracker status={order.status} />
         </div>
       )}
 
-      <p className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-zinc-300">
+      <p className="mt-5 border-l border-[#E31B23] pl-4 text-sm leading-6 text-white/70">
         {meta.message}
       </p>
 
-      {/* Items */}
       <div className="mt-6 space-y-3 border-t border-white/10 pt-5">
         {order.items.map((item) => (
           <div
@@ -204,62 +196,44 @@ function OrderCard({ order }: { order: Order }) {
               {item.vehicle_id ? (
                 <Link
                   href={`/showroom/car/${item.vehicle_id}`}
-                  className="block truncate font-semibold text-white transition-colors hover:text-[#F3D77A]"
+                  className={`block truncate uppercase tracking-[0.06em] transition-colors hover:text-[#E31B23] ${focus}`}
                 >
                   {item.name}
                 </Link>
               ) : (
-                <span className="block truncate font-semibold text-white">
+                <span className="block truncate uppercase tracking-[0.06em]">
                   {item.name}
                 </span>
               )}
-              <span className="text-xs text-zinc-500">Qty {item.quantity}</span>
+              <span className="text-xs text-white/50">Qty {item.quantity}</span>
             </div>
-            <span className="shrink-0 font-bold text-[#E11D2E]">
+            <span className="shrink-0">
               {formatPrice(item.unit_price * item.quantity)}
             </span>
           </div>
         ))}
       </div>
 
-      {/* Amounts */}
       <div className="mt-5 space-y-2.5 border-t border-white/10 pt-5 text-sm">
-        <div className="flex items-center justify-between">
-          <span className="text-zinc-400">Total price</span>
-          <span className="font-semibold text-white">
-            {formatPrice(order.subtotal)}
-          </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-zinc-400">Downpayment (20%)</span>
-          <span className="font-semibold text-white">
-            {formatPrice(order.downpayment)}
-          </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-zinc-400">Remaining balance</span>
-          <span className="font-semibold text-white">
-            {formatPrice(order.balance)}
-          </span>
-        </div>
+        <Row k="Total price" v={formatPrice(order.subtotal)} />
+        <Row k="Downpayment (20%)" v={formatPrice(order.downpayment)} strong />
+        <Row k="Remaining balance" v={formatPrice(order.balance)} />
       </div>
 
-      {/* Payment info */}
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5 text-xs text-zinc-400">
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5 text-xs text-white/60">
         <span>
           Paid via{" "}
-          <span className="font-semibold text-zinc-200">
+          <span className="text-white">
             {PAYMENT_LABELS[order.payment_method] ?? order.payment_method}
           </span>
-          {order.payment_reference && <> · Ref {order.payment_reference}</>}
+          {order.payment_reference && <>, ref {order.payment_reference}</>}
         </span>
-
         {order.payment_proof_url && (
           <a
             href={order.payment_proof_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-semibold text-[#E11D2E] transition-colors hover:text-[#dbc15b]"
+            className={`inline-flex items-center gap-1.5 text-[#E31B23] transition-colors hover:text-white ${focus}`}
           >
             View screenshot
             <ExternalLink size={13} />
@@ -270,22 +244,42 @@ function OrderCard({ order }: { order: Order }) {
   );
 }
 
-function Skeleton() {
+const Skeleton = () => (
+  <div className="space-y-5">
+    {[0, 1].map((i) => (
+      <div key={i} className="h-72 animate-pulse bg-[#1E1E1E]" />
+    ))}
+  </div>
+);
+
+function Empty({
+  title,
+  text,
+  href,
+  cta,
+}: {
+  title: string;
+  text: string;
+  href: string;
+  cta: string;
+}) {
   return (
-    <div className="space-y-5">
-      {[0, 1].map((i) => (
-        <div
-          key={i}
-          className="h-72 animate-pulse rounded-[28px] border border-white/10 bg-[#120f0d]"
-        />
-      ))}
-    </div>
+    <StateBox>
+      <p
+        className={`${display} text-xl font-light uppercase tracking-[0.14em]`}
+      >
+        {title}
+      </p>
+      <p className="mt-2 text-sm text-white/55">{text}</p>
+      <Link href={href} className={`${btnRed} mt-6`}>
+        {cta}
+      </Link>
+    </StateBox>
   );
 }
 
 export default function OrdersPage() {
   const { user, isLoading: authLoading } = useAuth();
-
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [error, setError] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -309,7 +303,6 @@ export default function OrdersPage() {
       setOrders(null);
       return;
     }
-
     const controller = new AbortController();
     void load(controller.signal);
     return () => controller.abort();
@@ -322,66 +315,49 @@ export default function OrdersPage() {
   };
 
   let content: React.ReactNode;
-
-  if (authLoading) {
+  if (authLoading || (user && orders === null && !error)) {
     content = <Skeleton />;
   } else if (!user) {
     content = (
-      <div className="rounded-[28px] border border-dashed border-white/15 bg-[#120f0d] px-6 py-16 text-center">
-        <p className="text-xl font-semibold text-white">
-          Log in to see your orders
-        </p>
-        <p className="mt-2 text-sm text-zinc-400">
-          Track the status of your reservations and payments.
-        </p>
-        <Link
-          href={LOGIN_HREF}
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#E11D2E] px-5 py-3 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#FF3344]"
-        >
-          Log in
-          <ArrowRight size={16} />
-        </Link>
-      </div>
+      <Empty
+        title="Log in to see your orders"
+        text="Track the status of your reservations and payments."
+        href={LOGIN_HREF}
+        cta="Log in"
+      />
     );
   } else if (error && orders === null) {
     content = (
-      <div className="rounded-[28px] border border-red-500/30 bg-red-500/10 px-6 py-12 text-center">
-        <p className="text-sm text-red-300">{error}</p>
+      <StateBox>
+        <p
+          className={`${display} text-xl font-light uppercase tracking-[0.14em]`}
+        >
+          Couldn&apos;t load orders
+        </p>
+        <p className="mt-2 text-sm text-white/60">{error}</p>
         <button
           type="button"
           onClick={handleRefresh}
-          className="mt-4 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-[#E11D2E]"
+          className={`${btnRed} mt-6`}
         >
           Try again
         </button>
-      </div>
+      </StateBox>
     );
-  } else if (orders === null) {
-    content = <Skeleton />;
-  } else if (orders.length === 0) {
+  } else if (orders && orders.length === 0) {
     content = (
-      <div className="rounded-[28px] border border-dashed border-white/15 bg-[#120f0d] px-6 py-20 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-[#E11D2E]/30 bg-[#E11D2E]/10">
-          <ShoppingBag className="text-[#E11D2E]" size={26} />
-        </div>
-        <p className="mt-6 text-xl font-semibold text-white">No orders yet</p>
-        <p className="mt-2 text-sm text-zinc-400">
-          When you place an order, you can track it here.
-        </p>
-        <Link
-          href="/showroom"
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#E11D2E] px-5 py-3 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#FF3344]"
-        >
-          Browse showroom
-          <ArrowRight size={16} />
-        </Link>
-      </div>
+      <Empty
+        title="No orders yet"
+        text="When you reserve a car, you can track it here."
+        href="/showroom"
+        cta="Browse showroom"
+      />
     );
   } else {
     content = (
       <div className="space-y-5">
-        {orders.map((order) => (
-          <OrderCard key={order.id} order={order} />
+        {orders?.map((o) => (
+          <OrderCard key={o.id} order={o} />
         ))}
       </div>
     );
@@ -390,38 +366,24 @@ export default function OrdersPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[#191610] text-white">
-        <section className="border-b border-[#E11D2E]/20 bg-[#0d0b09]">
-          <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-            <div className="flex items-center gap-3">
-              <span className="h-px w-10 bg-[#E11D2E]" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                Your Account
-              </span>
-            </div>
-
-            <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
-              <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">
-                My Orders
-              </h1>
-
-              {user && orders !== null && (
-                <button
-                  type="button"
-                  onClick={handleRefresh}
-                  disabled={isRefreshing}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-[#E11D2E] hover:text-[#F3D77A] disabled:opacity-60"
-                >
-                  <RefreshCw
-                    size={14}
-                    className={isRefreshing ? "animate-spin" : ""}
-                  />
-                  Refresh
-                </button>
-              )}
-            </div>
-          </div>
-        </section>
+      <main className="min-h-screen bg-[#161616] text-white">
+        <PageHero title="My orders">
+          Follow your reservations from payment to confirmation.
+          {user && orders !== null && (
+            <button
+              type="button"
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className={`${btnLine} mt-6 !px-5 !py-2.5 disabled:opacity-60`}
+            >
+              <RefreshCw
+                size={14}
+                className={isRefreshing ? "animate-spin" : ""}
+              />
+              Refresh
+            </button>
+          )}
+        </PageHero>
 
         <section className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
           {content}

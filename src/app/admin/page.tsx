@@ -37,12 +37,12 @@ import { fetchAdminDashboard, type DashboardData } from "@/lib/api";
 /* -------------------------------------------------------------------------- */
 
 const CATEGORY_COLORS = [
-  "#E11D2E",
+  "#FF2D2D",
   "#FFFFFF",
   "#9CA3AF",
-  "#FF3344",
+  "#FF5A5A",
   "#6B7280",
-  "#7F1D1D",
+  "#8E1520",
 ];
 
 const TOOLTIP_STYLE = {
@@ -54,13 +54,13 @@ const TOOLTIP_STYLE = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  confirmed: "bg-red-500/10 text-red-400",
-  completed: "bg-red-500/10 text-red-400",
+  confirmed: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
+  completed: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
   ready_for_pick_up: "bg-zinc-500/15 text-zinc-300",
-  pending_verification: "bg-red-500/10 text-red-400",
+  pending_verification: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
   reserved: "bg-zinc-500/15 text-zinc-300",
-  cancelled: "bg-red-500/10 text-red-400",
-  rejected: "bg-red-500/10 text-red-400",
+  cancelled: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
+  rejected: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
 };
 
 function statusLabel(status: string): string {
@@ -147,7 +147,7 @@ export default function AdminDashboardPage() {
               aria-pressed={months === range}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                 months === range
-                  ? "bg-[#E11D2E] text-white"
+                  ? "bg-[#FF2D2D] text-white"
                   : "text-zinc-400 hover:text-white"
               }`}
             >
@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {error && (
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-red-500/30 bg-red-500/5 p-4 text-sm text-red-300">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/5 p-4 text-sm text-[#FFFFFF]">
           <span>{error}</span>
           <button
             type="button"
@@ -247,8 +247,8 @@ function DashboardContent({
               >
                 <defs>
                   <linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#E11D2E" stopOpacity={0.35} />
-                    <stop offset="100%" stopColor="#E11D2E" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#FF2D2D" stopOpacity={0.35} />
+                    <stop offset="100%" stopColor="#FF2D2D" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid stroke="#ffffff14" vertical={false} />
@@ -281,7 +281,7 @@ function DashboardContent({
                   yAxisId="revenue"
                   type="monotone"
                   dataKey="revenue"
-                  stroke="#E11D2E"
+                  stroke="#FF2D2D"
                   strokeWidth={2}
                   fill="url(#revenueFill)"
                 />
@@ -335,7 +335,7 @@ function DashboardContent({
       {/* Cart analytics */}
       <section aria-label="Cart analytics" className="space-y-4">
         <div className="flex items-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#E11D2E]/10 text-[#E11D2E]">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF2D2D]/10 text-[#FFFFFF]">
             <ShoppingCart size={16} />
           </span>
           <div>
@@ -401,13 +401,13 @@ function DashboardContent({
                   <Bar
                     dataKey="added"
                     name="Added"
-                    fill="#E11D2E"
+                    fill="#FF2D2D"
                     radius={[4, 4, 0, 0]}
                   />
                   <Bar
                     dataKey="removed"
                     name="Removed"
-                    fill="#ef4444"
+                    fill="#FF2D2D"
                     radius={[4, 4, 0, 0]}
                   />
                 </BarChart>
@@ -429,7 +429,7 @@ function DashboardContent({
                       {row.vehicle}
                     </span>
                     <span className="shrink-0 text-xs text-zinc-400">
-                      <span className="font-semibold text-red-400">
+                      <span className="font-semibold text-[#FFFFFF]">
                         {row.removed}
                       </span>{" "}
                       removed / {row.added} added
@@ -479,7 +479,7 @@ function DashboardContent({
                 <Bar
                   dataKey="unitsSold"
                   name="Units sold"
-                  fill="#E11D2E"
+                  fill="#FF2D2D"
                   radius={[0, 6, 6, 0]}
                   barSize={16}
                 />
@@ -498,7 +498,7 @@ function DashboardContent({
             </div>
             <a
               href="/admin/orders"
-              className="text-xs font-medium text-[#E11D2E] hover:text-[#FF3344]"
+              className="text-xs font-medium text-[#FFFFFF] hover:text-[#FFFFFF]"
             >
               View all
             </a>
@@ -581,7 +581,7 @@ function StatCard({
         <span className="text-xs font-medium uppercase tracking-wide text-zinc-400">
           {label}
         </span>
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#E11D2E]/10 text-[#E11D2E]">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF2D2D]/10 text-[#FFFFFF]">
           {icon}
         </span>
       </div>
@@ -590,7 +590,7 @@ function StatCard({
         {change !== null && (
           <span
             className={`flex items-center gap-1 text-xs font-semibold ${
-              trend === "up" ? "text-red-400" : "text-red-400"
+              trend === "up" ? "text-[#FFFFFF]" : "text-[#FFFFFF]"
             }`}
           >
             {trend === "up" ? (

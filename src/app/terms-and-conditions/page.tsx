@@ -4,16 +4,16 @@ import type { Metadata } from "next";
 import LegalPage, { type LegalSection } from "@/components/layout/legal-page";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | AutoTrade",
+  title: "Terms & Conditions | Auto-Prime Car Trading",
   description:
-    "The terms that apply when you use the AutoTrade website, place orders, or submit sell / trade requests.",
+    "The terms that apply when you use the Auto-Prime Car Trading website, place orders, or submit sell / trade requests.",
 };
 
 const sections: LegalSection[] = [
   {
     title: "Acceptance of Terms",
     paragraphs: [
-      "By accessing or using the AutoTrade website, you agree to these Terms & Conditions and our Privacy Policy. If you do not agree, please do not use the website.",
+      "By accessing or using the Auto-Prime Car Trading website, you agree to these Terms & Conditions and our Privacy Policy. If you do not agree, please do not use the website.",
     ],
   },
   {
@@ -38,7 +38,7 @@ const sections: LegalSection[] = [
   {
     title: "Vehicle Listings and Pricing",
     paragraphs: [
-      "Listings, photos, prices, mileage, specifications, and availability are provided for general information and may change without notice. We work hard to keep them accurate, but errors can occur. Final price, condition, and availability are confirmed by AutoTrade at the time of sale. We may correct any listing error, including cancelling an affected order.",
+      "Listings, photos, prices, mileage, specifications, and availability are provided for general information and may change without notice. We work hard to keep them accurate, but errors can occur. Final price, condition, and availability are confirmed by Auto-Prime Car Trading at the time of sale. We may correct any listing error, including cancelling an affected order.",
     ],
   },
   {
@@ -47,7 +47,7 @@ const sections: LegalSection[] = [
       "Placing an order requires a downpayment of 20% of the vehicle price, paid through the methods shown at checkout, with a payment screenshot uploaded as proof.",
       "An order is only confirmed after we verify your payment. Until then it remains pending verification.",
       "Vehicle stock is reserved once an order is confirmed. If a vehicle is no longer available, we will contact you about alternatives or a refund of your downpayment.",
-      "The remaining balance is settled on pick-up or as agreed in writing with AutoTrade.",
+      "The remaining balance is settled on pick-up or as agreed in writing with Auto-Prime Car Trading.",
       "Cancellations and refunds are handled case by case in line with the terms communicated at the time of your order and applicable law.",
     ],
   },
@@ -66,7 +66,7 @@ const sections: LegalSection[] = [
   {
     title: "Intellectual Property",
     paragraphs: [
-      "All content on this website, including the AutoTrade name, logo, text, graphics, and photos, belongs to AutoTrade or its licensors and is protected by law. You may view and use it for personal, non-commercial purposes only.",
+      "All content on this website, including the Auto-Prime Car Trading name, logo, text, graphics, and photos, belongs to Auto-Prime Car Trading or its licensors and is protected by law. You may view and use it for personal, non-commercial purposes only.",
     ],
   },
   {
@@ -78,7 +78,7 @@ const sections: LegalSection[] = [
   {
     title: "Limitation of Liability",
     paragraphs: [
-      "To the fullest extent permitted by law, AutoTrade is not liable for indirect or consequential losses arising from your use of the website or reliance on its content, including information supplied by third parties or other users. Our total liability for any claim relating to an order is limited to the amount you paid for that order.",
+      "To the fullest extent permitted by law, Auto-Prime Car Trading is not liable for indirect or consequential losses arising from your use of the website or reliance on its content, including information supplied by third parties or other users. Our total liability for any claim relating to an order is limited to the amount you paid for that order.",
     ],
   },
   {
@@ -90,7 +90,7 @@ const sections: LegalSection[] = [
   {
     title: "Governing Law",
     paragraphs: [
-      "These terms are governed by the laws of the Republic of the Philippines. Any dispute will be brought before the proper courts of the city where AutoTrade's main showroom is located.",
+      "These terms are governed by the laws of the Republic of the Philippines. Any dispute will be brought before the proper courts of the city where Auto-Prime Car Trading's main showroom is located.",
     ],
   },
   {
@@ -102,7 +102,7 @@ const sections: LegalSection[] = [
   {
     title: "Contact Us",
     paragraphs: [
-      "Questions about these terms? Email hello@autotrade.com or reach us through our Contact Us page.",
+      "Questions about these terms? Email capitaljeycartrading@gmail.com or reach us through our Contact Us page.",
     ],
   },
 ];
@@ -113,7 +113,7 @@ export default function TermsAndConditionsPage() {
       eyebrow="Legal"
       title="Terms & Conditions"
       updated="September 29, 2026"
-      intro="Please read these terms carefully before using the AutoTrade website, placing an order, or submitting a sell / trade request."
+      intro="Please read these terms carefully before using the Auto-Prime Car Trading website, placing an order, or submitting a sell / trade request."
       sections={sections}
     />
   );

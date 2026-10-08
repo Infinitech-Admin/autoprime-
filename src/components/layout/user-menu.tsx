@@ -11,7 +11,7 @@ const LOGIN_HREF = "/login"; // ADJUST if your login page lives elsewhere
 const ORDERS_HREF = "/orders";
 
 const focusRing =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E11D2E]";
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF2D2D]";
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -83,7 +83,7 @@ export default function UserMenu() {
     return (
       <Link
         href={LOGIN_HREF}
-        className={`flex h-11 items-center justify-center gap-2 rounded-full border border-white/15 bg-black/30 px-3 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-[#E11D2E] hover:text-[#F3D77A] sm:h-12 sm:px-4 ${focusRing}`}
+        className={`flex h-11 items-center justify-center gap-2 rounded-full border border-white/15 bg-[#060606]/30 px-3 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-[#FF2D2D] hover:text-[#FFFFFF] sm:h-12 sm:px-4 ${focusRing}`}
       >
         <LogIn size={18} strokeWidth={2} />
         <span className="hidden sm:inline">Login</span>
@@ -100,7 +100,7 @@ export default function UserMenu() {
         aria-label="Account menu"
         aria-haspopup="menu"
         aria-expanded={open}
-        className={`flex h-11 w-11 items-center justify-center rounded-full border border-[#E11D2E]/60 bg-[#E11D2E] text-sm font-black text-black shadow-[0_10px_30px_rgba(191,152,13,0.25)] transition-all duration-300 hover:bg-[#FF3344] sm:h-12 sm:w-12 ${focusRing}`}
+        className={`flex h-11 w-11 items-center justify-center rounded-full border border-[#FF2D2D]/60 bg-[#FF2D2D] text-sm font-black text-black shadow-[0_10px_30px_rgba(191,152,13,0.25)] transition-all duration-300 hover:bg-[#FF5A5A] sm:h-12 sm:w-12 ${focusRing}`}
       >
         {getInitials(user.name)}
       </button>
@@ -108,7 +108,7 @@ export default function UserMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full z-50 mt-3 w-64 overflow-hidden rounded-2xl border border-white/10 bg-[#0d0f13] shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
+          className="absolute right-0 top-full z-50 mt-3 w-64 overflow-hidden rounded-2xl border border-white/10 bg-[#111111] shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
         >
           <div className="border-b border-white/10 px-4 py-3">
             <p className="truncate text-sm font-semibold text-white">
@@ -121,7 +121,7 @@ export default function UserMenu() {
             <Link
               href={ORDERS_HREF}
               role="menuitem"
-              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-200 transition-colors hover:bg-[#E11D2E]/10 hover:text-[#F3D77A] ${focusRing}`}
+              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-200 transition-colors hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF] ${focusRing}`}
             >
               <ClipboardList size={16} />
               My orders
@@ -131,7 +131,7 @@ export default function UserMenu() {
               type="button"
               role="menuitem"
               onClick={handleLogout}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-zinc-200 transition-colors hover:bg-red-500/10 hover:text-red-300 ${focusRing}`}
+              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-zinc-200 transition-colors hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF] ${focusRing}`}
             >
               <LogOut size={16} />
               Log out

@@ -51,13 +51,13 @@ const paymentLabel = (method: string) =>
 // ADJUST: match the status values your OrderController uses.
 // Unknown statuses fall back to the neutral style below.
 const STATUS_STYLES: Record<string, string> = {
-  pending_verification: "bg-red-500/10 text-red-400",
-  pending: "bg-red-500/10 text-red-400",
-  confirmed: "bg-red-500/10 text-red-400",
+  pending_verification: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
+  pending: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
+  confirmed: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
   ready_for_pick_up: "bg-violet-500/10 text-violet-400",
-  paid: "bg-red-500/10 text-red-400",
+  paid: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
   completed: "bg-zinc-500/15 text-zinc-300",
-  cancelled: "bg-red-500/10 text-red-400",
+  cancelled: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
 };
 
 const FALLBACK_STATUS_STYLE = "bg-zinc-500/15 text-zinc-400";
@@ -99,10 +99,10 @@ function Dialog({
       aria-modal="true"
     >
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-[#060606]/70 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/10 bg-[#0d0d0d] p-6 shadow-2xl">
+      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/10 bg-[#060606] p-6 shadow-2xl">
         {children}
       </div>
     </div>,
@@ -258,7 +258,7 @@ export default function OrdersClient({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by order no., name, email or phone..."
-            className="w-full rounded-xl border border-white/10 bg-[#111111]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#E11D2E]/60"
+            className="w-full rounded-xl border border-white/10 bg-[#111111]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#FF2D2D]/60"
           />
         </div>
 
@@ -273,7 +273,7 @@ export default function OrdersClient({
               onClick={() => setStatusFilter(status)}
               className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium capitalize transition-colors ${
                 statusFilter === status
-                  ? "bg-[#E11D2E]/15 text-[#E11D2E]"
+                  ? "bg-[#FF2D2D]/15 text-[#FFFFFF]"
                   : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
               }`}
             >
@@ -284,14 +284,14 @@ export default function OrdersClient({
       </div>
 
       {error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+        <div className="rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
           {error}
         </div>
       )}
 
       {loading ? (
         <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-[#111111]/70 py-16 text-sm text-zinc-400">
-          <Loader2 size={18} className="mr-2 animate-spin text-[#E11D2E]" />
+          <Loader2 size={18} className="mr-2 animate-spin text-[#FFFFFF]" />
           Loading orders...
         </div>
       ) : (
@@ -323,7 +323,7 @@ export default function OrdersClient({
                   >
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#E11D2E]/15 text-[#E11D2E]">
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
                           <Receipt size={16} />
                         </span>
                         <span className="font-medium text-white">
@@ -361,7 +361,7 @@ export default function OrdersClient({
                           onClick={() => setSelected(o)}
                           title="View details"
                           aria-label={`View order ${o.order_number}`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#E11D2E]/50 hover:bg-[#E11D2E]/10 hover:text-[#E11D2E]"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#FF2D2D]/50 hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF]"
                         >
                           <Eye size={14} />
                         </button>
@@ -390,11 +390,11 @@ export default function OrdersClient({
                 key={o.id}
                 type="button"
                 onClick={() => setSelected(o)}
-                className="rounded-2xl border border-white/10 bg-[#111111]/70 p-4 text-left transition-colors hover:border-[#E11D2E]/40"
+                className="rounded-2xl border border-white/10 bg-[#111111]/70 p-4 text-left transition-colors hover:border-[#FF2D2D]/40"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#E11D2E]/15 text-[#E11D2E]">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
                       <Receipt size={18} />
                     </span>
                     <div>
@@ -467,7 +467,7 @@ export default function OrdersClient({
               </div>
 
               {/* Update status */}
-              <section className="mt-5 rounded-xl border border-[#E11D2E]/20 bg-black/20 p-4">
+              <section className="mt-5 rounded-xl border border-[#FF2D2D]/20 bg-[#060606]/20 p-4">
                 <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                   Update status
                 </h3>
@@ -480,7 +480,7 @@ export default function OrdersClient({
                       setUpdateNotice("");
                     }}
                     disabled={updating}
-                    className="flex-1 rounded-xl border border-white/10 bg-[#0a0a0a] px-3 py-2.5 text-sm text-white outline-none focus:border-[#E11D2E]/60 disabled:opacity-60"
+                    className="flex-1 rounded-xl border border-white/10 bg-[#060606] px-3 py-2.5 text-sm text-white outline-none focus:border-[#FF2D2D]/60 disabled:opacity-60"
                   >
                     {ORDER_STATUSES.map((status) => (
                       <option key={status} value={status}>
@@ -492,7 +492,7 @@ export default function OrdersClient({
                     type="button"
                     onClick={saveStatus}
                     disabled={updating || nextStatus === selected.status}
-                    className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#E11D2E] to-[#FF3344] px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FF2D2D] to-[#FF5A5A] px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {updating && <Loader2 size={15} className="animate-spin" />}
                     {updating ? "Saving..." : "Save status"}
@@ -503,12 +503,12 @@ export default function OrdersClient({
                   confirmed order puts it back.
                 </p>
                 {updateError && (
-                  <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                  <p className="mt-3 rounded-lg border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-3 py-2 text-xs text-[#FFFFFF]">
                     {updateError}
                   </p>
                 )}
                 {updateNotice && (
-                  <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                  <p className="mt-3 rounded-lg border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-3 py-2 text-xs text-[#FFFFFF]">
                     {updateNotice}
                   </p>
                 )}
@@ -516,7 +516,7 @@ export default function OrdersClient({
 
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
                 {/* Customer */}
-                <section className="rounded-xl border border-white/10 bg-black/20 p-4">
+                <section className="rounded-xl border border-white/10 bg-[#060606]/20 p-4">
                   <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                     Customer
                   </h3>
@@ -530,7 +530,7 @@ export default function OrdersClient({
                 </section>
 
                 {/* Payment */}
-                <section className="rounded-xl border border-white/10 bg-black/20 p-4">
+                <section className="rounded-xl border border-white/10 bg-[#060606]/20 p-4">
                   <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                     Payment
                   </h3>
@@ -544,7 +544,7 @@ export default function OrdersClient({
                     {formatPrice(selected.subtotal)}
                   </DetailRow>
                   <DetailRow label="Downpayment">
-                    <span className="text-[#E11D2E]">
+                    <span className="text-[#FFFFFF]">
                       {formatPrice(selected.downpayment)}
                     </span>
                   </DetailRow>
@@ -556,7 +556,7 @@ export default function OrdersClient({
 
               {/* Items */}
               {selected.items && selected.items.length > 0 && (
-                <section className="mt-5 rounded-xl border border-white/10 bg-black/20 p-4">
+                <section className="mt-5 rounded-xl border border-white/10 bg-[#060606]/20 p-4">
                   <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
                     Items
                   </h3>
@@ -590,7 +590,7 @@ export default function OrdersClient({
                     href={proofUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative block overflow-hidden rounded-xl border border-white/10 bg-black/30"
+                    className="group relative block overflow-hidden rounded-xl border border-white/10 bg-[#060606]/30"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -598,7 +598,7 @@ export default function OrdersClient({
                       alt={`Payment proof for ${selected.order_number}`}
                       className="mx-auto max-h-96 w-auto object-contain"
                     />
-                    <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
+                    <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-[#060606]/70 px-3 py-1.5 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
                       <ExternalLink size={12} />
                       Open full size
                     </span>

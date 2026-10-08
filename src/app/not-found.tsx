@@ -4,7 +4,7 @@ import Navbar from "../components/layout/navbar";
 import Footer from "../components/layout/footer";
 
 const focusRing =
-    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E11D2E]";
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF2D2D]";
 
 /*
  * Silhouette of the BMW 5 Series photo, traced from the image.
@@ -19,10 +19,10 @@ export default function NotFound() {
         <>
             <Navbar />
 
-            <main className="relative flex min-h-[calc(100svh_-_81px)] items-center overflow-hidden border-b border-white/10 bg-black">
+            <main className="relative flex min-h-[calc(100svh_-_81px)] items-center overflow-hidden border-b border-white/10 bg-[#060606]">
 
                 {/* Showroom light, same gold glow as the hero */}
-                <div className="pointer-events-none absolute right-[10%] top-1/3 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-[#E11D2E]/10 blur-[140px]" />
+                <div className="pointer-events-none absolute right-[10%] top-1/3 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-white/[0.06] blur-[140px]" />
 
                 <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:px-8 lg:py-16">
 
@@ -31,7 +31,7 @@ export default function NotFound() {
                     ========================== */}
                     <div className="max-w-xl">
 
-                        <p className="text-sm font-semibold text-[#E11D2E]">
+                        <p className="text-sm font-semibold text-[#FFFFFF]">
                             Error 404
                         </p>
 
@@ -48,14 +48,14 @@ export default function NotFound() {
                         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                             <Link
                                 href="/cars"
-                                className={`inline-flex items-center justify-center rounded-full bg-[#E11D2E] px-7 py-4 text-sm font-bold text-white shadow-lg shadow-[#E11D2E]/10 transition-all duration-300 hover:bg-[#FF3344] hover:shadow-[#E11D2E]/25 ${focusRing}`}
+                                className={`inline-flex items-center justify-center rounded-full bg-[#FF2D2D] px-7 py-4 text-sm font-bold text-white shadow-lg shadow-[#FF2D2D]/10 transition-all duration-300 hover:bg-[#FF5A5A] hover:shadow-[#FF2D2D]/25 ${focusRing}`}
                             >
                                 Browse inventory
                             </Link>
 
                             <Link
                                 href="/"
-                                className={`inline-flex items-center justify-center rounded-full border border-[#E11D2E]/70 bg-black/30 px-7 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-[#E11D2E] hover:bg-[#E11D2E]/15 ${focusRing}`}
+                                className={`inline-flex items-center justify-center rounded-full border border-[#FF2D2D]/70 bg-[#060606]/30 px-7 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-[#FF2D2D] hover:bg-[#FF2D2D]/15 ${focusRing}`}
                             >
                                 Go to homepage
                             </Link>
@@ -65,7 +65,7 @@ export default function NotFound() {
                             Looking for a specific car?{" "}
                             <Link
                                 href="/contact"
-                                className={`font-medium text-white underline decoration-[#E11D2E] decoration-2 underline-offset-4 transition-colors hover:text-[#E11D2E] ${focusRing}`}
+                                className={`font-medium text-white underline decoration-[#FF2D2D] decoration-2 underline-offset-4 transition-colors hover:text-[#FFFFFF] ${focusRing}`}
                             >
                                 Contact us
                             </Link>{" "}
@@ -87,8 +87,8 @@ export default function NotFound() {
                         >
                             <defs>
                                 <radialGradient id="nf-floor">
-                                    <stop offset="0" stopColor="#E11D2E" stopOpacity="0.28" />
-                                    <stop offset="1" stopColor="#E11D2E" stopOpacity="0" />
+                                    <stop offset="0" stopColor="#FF2D2D" stopOpacity="0.28" />
+                                    <stop offset="1" stopColor="#FF2D2D" stopOpacity="0" />
                                 </radialGradient>
 
                                 {/* Reveals the dashed outline as if it's being traced */}
@@ -118,7 +118,7 @@ export default function NotFound() {
                             <path
                                 d={CAR_OUTLINE}
                                 mask="url(#nf-car-mask)"
-                                stroke="#E11D2E"
+                                stroke="#FF2D2D"
                                 strokeOpacity="0.9"
                                 strokeWidth="4"
                                 strokeDasharray="22 16"
@@ -129,7 +129,7 @@ export default function NotFound() {
                             {/* Windows, wheels, lights, grille */}
                             <g
                                 className="nf-car-detail"
-                                stroke="#E11D2E"
+                                stroke="#FF2D2D"
                                 strokeOpacity="0.55"
                                 strokeWidth="3"
                                 strokeDasharray="12 10"

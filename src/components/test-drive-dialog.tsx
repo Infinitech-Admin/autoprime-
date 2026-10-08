@@ -13,12 +13,12 @@ import {
 } from "@/lib/api";
 
 const focusRing =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E11D2E]";
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF2D2D]";
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-[#171410] px-3.5 py-3 text-sm text-white placeholder:text-zinc-500 [color-scheme:dark] focus:border-[#E11D2E] focus:outline-none";
+  "w-full rounded-xl border border-white/10 bg-[#111111] px-3.5 py-3 text-sm text-white placeholder:text-zinc-500 [color-scheme:dark] focus:border-[#FF2D2D] focus:outline-none";
 
-const inputInvalidClass = "!border-red-500/60 focus:!border-red-500";
+const inputInvalidClass = "!border-[#FF2D2D]/60 focus:!border-[#FF2D2D]";
 
 /** Local YYYY-MM-DD, `daysFromNow` days ahead. */
 function localDate(daysFromNow: number): string {
@@ -420,14 +420,14 @@ export default function TestDriveDialog({
         if (e.target === dialogRef.current) onClose();
       }}
       aria-labelledby="test-drive-title"
-      className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-[28px] border border-[#E11D2E]/20 bg-[#120f0d] p-0 text-white shadow-[0_25px_80px_rgba(0,0,0,0.6)] backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+      className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-[28px] border border-[#FF2D2D]/20 bg-[#111111] p-0 text-white shadow-[0_25px_80px_rgba(0,0,0,0.6)] backdrop:bg-[#060606]/70 backdrop:backdrop-blur-sm"
     >
       <div className="max-h-[90vh] overflow-y-auto p-5 sm:p-6">
         {/* Header */}
         <div className="mb-5 flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E11D2E]/10">
-              <CalendarCheck className="text-[#E11D2E]" size={20} />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FF2D2D]/10">
+              <CalendarCheck className="text-[#FFFFFF]" size={20} />
             </div>
             <div>
               <h2 id="test-drive-title" className="text-lg font-bold">
@@ -441,7 +441,7 @@ export default function TestDriveDialog({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 text-zinc-300 transition-colors hover:border-[#E11D2E] hover:text-white ${focusRing}`}
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 text-zinc-300 transition-colors hover:border-[#FF2D2D] hover:text-white ${focusRing}`}
           >
             <X size={16} />
           </button>
@@ -450,7 +450,7 @@ export default function TestDriveDialog({
         {result ? (
           /* Success */
           <div className="py-4 text-center">
-            <CheckCircle2 className="mx-auto text-red-400" size={48} />
+            <CheckCircle2 className="mx-auto text-[#FFFFFF]" size={48} />
             <h3 className="mt-4 text-xl font-bold">Request received</h3>
             <p className="mt-2 text-sm leading-6 text-zinc-300">
               {dateLabel(result.preferred_date)} at{" "}
@@ -458,7 +458,7 @@ export default function TestDriveDialog({
             </p>
             <p className="mt-1 text-sm text-zinc-500">
               Reference{" "}
-              <span className="font-semibold text-[#F3D77A]">
+              <span className="font-semibold text-[#FFFFFF]">
                 {result.reference}
               </span>
             </p>
@@ -468,7 +468,7 @@ export default function TestDriveDialog({
             <button
               type="button"
               onClick={onClose}
-              className={`mt-6 inline-flex items-center justify-center rounded-full bg-[#E11D2E] px-6 py-3 text-sm font-bold text-white transition-all hover:bg-[#d8b53c] ${focusRing}`}
+              className={`mt-6 inline-flex items-center justify-center rounded-full bg-[#FF2D2D] px-6 py-3 text-sm font-bold text-white transition-all hover:bg-[#FF2D2D] ${focusRing}`}
             >
               Done
             </button>
@@ -479,7 +479,7 @@ export default function TestDriveDialog({
             {formError && (
               <p
                 role="alert"
-                className="rounded-xl border border-red-500/30 bg-red-500/5 px-3.5 py-2.5 text-sm text-red-300"
+                className="rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/5 px-3.5 py-2.5 text-sm text-[#FFFFFF]"
               >
                 {formError}
               </p>
@@ -579,8 +579,8 @@ export default function TestDriveDialog({
                         onClick={() => setField("preferred_time", slot.time)}
                         className={`rounded-xl border px-2 py-2.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:text-zinc-600 disabled:line-through ${
                           selected
-                            ? "border-[#E11D2E] bg-[#E11D2E] text-black"
-                            : "border-white/10 bg-[#171410] text-white hover:border-[#E11D2E]/60 disabled:hover:border-white/10"
+                            ? "border-[#FF2D2D] bg-[#FF2D2D] text-black"
+                            : "border-white/10 bg-[#111111] text-white hover:border-[#FF2D2D]/60 disabled:hover:border-white/10"
                         } ${focusRing}`}
                       >
                         {timeLabel(slot.time)}
@@ -612,7 +612,7 @@ export default function TestDriveDialog({
                 !form.preferred_date ||
                 !form.preferred_time
               }
-              className={`flex w-full items-center justify-center rounded-full bg-[#E11D2E] px-5 py-3.5 text-sm font-bold text-white transition-all hover:bg-[#d8b53c] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#E11D2E] ${focusRing}`}
+              className={`flex w-full items-center justify-center rounded-full bg-[#FF2D2D] px-5 py-3.5 text-sm font-bold text-white transition-all hover:bg-[#FF2D2D] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#FF2D2D] ${focusRing}`}
             >
               {submitting ? "Sending request…" : "Request test drive"}
             </button>
@@ -644,7 +644,7 @@ function Field({
       </span>
       {children}
       {error && (
-        <span role="alert" className="mt-1.5 block text-xs text-red-400">
+        <span role="alert" className="mt-1.5 block text-xs text-[#FFFFFF]">
           {error}
         </span>
       )}

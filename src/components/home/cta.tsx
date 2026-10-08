@@ -1,50 +1,65 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
+// Same tapered speed lines as the hero, so the page opens and closes on one motif.
+function SpeedLines({ flip = false }: { flip?: boolean }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 200 60"
+      className={`h-auto w-40 text-[#E31B23] lg:w-72 ${flip ? "-scale-x-100" : ""}`}
+    >
+      <polygon points="0,6 200,24 0,14" fill="currentColor" />
+      <polygon points="30,24 200,30 30,34" fill="currentColor" opacity="0.7" />
+      <polygon points="0,46 200,36 0,54" fill="currentColor" />
+    </svg>
+  );
+}
 
 export default function CTA() {
-    return (
-        <section className="relative overflow-hidden bg-black border-t border-[#E11D2E]/30 backdrop-blur-2xl backdrop-[#E11D2E]/10 py-14 text-center">
-            {/* Background glow */}
-            <div className="absolute left-1/2 top-1/2 h-[450px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#E11D2E]/10 blur-[130px]" />
+  return (
+    <section className="relative overflow-hidden border-t-4 border-[#E31B23] bg-gradient-to-b from-[#8F1117] to-[#6E0B0B] py-20 text-center">
+      {/* Speed lines on both sides (hidden on small screens so text stays clear) */}
+      <div className="pointer-events-none absolute left-0 top-1/2 hidden -translate-y-1/2 opacity-60 md:block">
+        <SpeedLines />
+      </div>
+      <div className="pointer-events-none absolute right-0 top-1/2 hidden -translate-y-1/2 opacity-60 md:block">
+        <SpeedLines flip />
+      </div>
 
-            <div className="relative mx-auto max-w-4xl px-5 sm:px-6">
-                <div className="mb-5 flex items-center justify-center gap-3">
-                    <span className="h-px w-10 bg-[#E11D2E]" />
-                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#E11D2E]">
-                        Your Next Drive
-                    </span>
-                    <span className="h-px w-10 bg-[#E11D2E]" />
-                </div>
+      <div className="relative mx-auto max-w-4xl px-5 sm:px-6">
+        <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-[#FFFFFF] sm:text-5xl lg:text-7xl">
+          Ready to find
+          <span className="block">your next car?</span>
+        </h2>
 
-                <h2 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
-                    Ready to find your
-                    <span className="block text-[#E11D2E]">
-                        next car?
-                    </span>
-                </h2>
+        <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-[#FFFFFF]/85 sm:text-base">
+          Browse the showroom, or talk to our team about finding the right
+          vehicle for you.
+        </p>
 
-                <p className="mt-5 text-sm leading-7 text-[var(--muted)] sm:text-base">
-                    Explore our collection or speak with our team about
-                    finding the right vehicle for you.
-                </p>
+        <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+          <Link
+            href="/showroom"
+            className="chamfer group inline-flex items-center justify-center gap-3 bg-[#E31B23] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#0A0A0A] transition-colors duration-300 hover:bg-[#FFFFFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Visit showroom
+            <ArrowRight
+              size={17}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </Link>
 
-                <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-                    <Link
-                        href="/showroom"
-                        className="inline-flex items-center justify-center rounded-full bg-[#E11D2E] px-7 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#FF3344] hover:shadow-[0_0_30px_rgba(191,152,13,0.25)]"
-                    >
-                        Visit Showroom
-                    </Link>
-
-                    <Link
-                        href="/contact"
-                        className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-[#E11D2E]/50 hover:bg-white/10"
-                    >
-                        Contact Us
-                    </Link>
-                </div>
-            </div>
-        </section>
-    )
+          <Link
+            href="/contact"
+            className="chamfer inline-flex items-center justify-center bg-[#0A0A0A] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#FFFFFF] transition-colors duration-300 hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Contact us
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 }

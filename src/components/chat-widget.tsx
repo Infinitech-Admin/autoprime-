@@ -4,8 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Bot, MessageCircle, Send, User, X } from "lucide-react";
 
+const BUSINESS_NAME = "Auto-Prime Car Trading";
+const FACEBOOK_URL = "https://www.facebook.com/autoprimecartrading/";
+const PHONE_DISPLAY = "0927 377 7182";
+const EMAIL = "shirleyprimesdisplay@yahoo.com";
+const ADDRESS =
+  "Leo Alejandrino St, BF Resort, Las Piñas City, Philippines 1747";
+
+// Palette: black #0A0A0A | panel #141414 | red #E31B23 | white #FFFFFF
 const focusRing =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E11D2E]";
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E31B23]";
 
 interface ChatMessage {
   id: string;
@@ -17,25 +25,47 @@ const QUICK_REPLIES = [
   "I want to sell my car",
   "Financing options",
   "Book a test drive",
+  "Where are you located?",
 ];
 
 function getBotReply(message: string): string {
   const text = message.toLowerCase();
 
   if (text.includes("sell") || text.includes("trade")) {
-    return "Great — head to our Sell / Trade page and submit your car's details. Our team will send you a valuation within 24 hours.";
+    return "Great! Head to our Sell / Trade page and submit your car's details. Our team will review it and get back to you with a valuation.";
   }
 
   if (text.includes("financ")) {
-    return "We work with several lenders and offer flexible terms. Want me to have a finance specialist call you?";
+    return `We can go over financing options with you. Call us at ${PHONE_DISPLAY}, email ${EMAIL}, or send us a message on our Facebook page (${FACEBOOK_URL}) and our team will follow up.`;
   }
 
   if (text.includes("test drive") || text.includes("book")) {
     return 'Happy to help! Pick a car from our Showroom and tap "Book Test Drive" on its page, or share the model here and I\'ll pass it along.';
   }
 
+  if (
+    text.includes("where") ||
+    text.includes("location") ||
+    text.includes("address") ||
+    text.includes("visit")
+  ) {
+    return `You can find us at ${ADDRESS}. Please call ${PHONE_DISPLAY} or message us on Facebook first so we can confirm our hours before you visit.`;
+  }
+
   if (text.includes("hour") || text.includes("open")) {
-    return "We're open Mon–Sat, 9am–7pm. Feel free to drop by or reach us anytime here.";
+    return `Please call us at ${PHONE_DISPLAY} or message us on our Facebook page (${FACEBOOK_URL}) to confirm our current hours before you visit.`;
+  }
+
+  if (
+    text.includes("contact") ||
+    text.includes("facebook") ||
+    text.includes("email") ||
+    text.includes("phone") ||
+    text.includes("number") ||
+    text.includes("message") ||
+    text.includes("call")
+  ) {
+    return `You can reach us at:\n• Phone: ${PHONE_DISPLAY}\n• Email: ${EMAIL}\n• Facebook: ${FACEBOOK_URL}\nYou can also use the form on our Contact page.`;
   }
 
   return "Thanks for reaching out! A member of our team will follow up shortly. Anything specific I can help you with in the meantime?";
@@ -53,7 +83,7 @@ export default function ChatWidget() {
     {
       id: "welcome",
       role: "bot",
-      text: "Hi there! 👋 I'm the AutoTrade assistant. Ask me about buying, selling, or financing a car.",
+      text: `Hi there! 👋 I'm the ${BUSINESS_NAME} assistant. Ask me about buying, selling, or trading a car.`,
     },
   ]);
 
@@ -109,7 +139,7 @@ export default function ChatWidget() {
   };
 
   // Hide chatbot on all admin pages
-  if (pathname.startsWith("/admin")) {
+  if (pathname?.startsWith("/admin")) {
     return null;
   }
 
@@ -117,21 +147,25 @@ export default function ChatWidget() {
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
       {/* Chat panel */}
       {isOpen && (
-        <div className="flex h-[min(70vh,560px)] w-[min(92vw,360px)] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#080b0f] shadow-[0_20px_60px_rgba(0,0,0,0.55)]">
+        <div
+          role="dialog"
+          aria-label={`${BUSINESS_NAME} chat`}
+          className="flex h-[min(70vh,560px)] w-[min(92vw,360px)] flex-col overflow-hidden border-t-4 border-[#E31B23] bg-[#0A0A0A] shadow-[0_20px_60px_rgba(0,0,0,0.65)]"
+        >
           {/* Header */}
-          <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#0d1117] px-4 py-3.5">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E11D2E] text-black">
+          <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#141414] px-4 py-3.5">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="chamfer flex h-9 w-9 shrink-0 items-center justify-center bg-[#E31B23] text-white">
                 <Bot size={18} strokeWidth={2.25} />
               </div>
 
-              <div className="leading-tight">
-                <div className="text-sm font-semibold text-white">
-                  AutoTrade Assistant
+              <div className="min-w-0 leading-tight">
+                <div className="truncate text-sm font-bold text-white">
+                  {BUSINESS_NAME}
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs text-zinc-400">
-                  <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+                <div className="flex items-center gap-1.5 text-xs text-white/65">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#E31B23]" />
                   Online now
                 </div>
               </div>
@@ -141,7 +175,7 @@ export default function ChatWidget() {
               type="button"
               aria-label="Close chat"
               onClick={() => setIsOpen(false)}
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-white/5 hover:text-white ${focusRing}`}
+              className={`flex h-9 w-9 shrink-0 items-center justify-center border border-white/20 text-white/70 transition-colors hover:border-[#E31B23] hover:bg-[#8F1117] hover:text-white ${focusRing}`}
             >
               <X size={18} />
             </button>
@@ -160,23 +194,23 @@ export default function ChatWidget() {
                 }`}
               >
                 {message.role === "bot" && (
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#E11D2E]/15 text-[#F3D77A]">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center bg-[#E31B23]/15 text-[#E31B23]">
                     <Bot size={14} />
                   </div>
                 )}
 
                 <div
-                  className={`max-w-[75%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                  className={`max-w-[75%] whitespace-pre-line break-words px-3.5 py-2.5 text-sm leading-relaxed ${
                     message.role === "user"
-                      ? "rounded-br-sm bg-[#E11D2E] text-black"
-                      : "rounded-bl-sm bg-white/[0.06] text-zinc-100"
+                      ? "bg-[#E31B23] text-white"
+                      : "border-l-2 border-[#E31B23] bg-white/[0.06] text-white"
                   }`}
                 >
                   {message.text}
                 </div>
 
                 {message.role === "user" && (
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-zinc-300">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center bg-white/10 text-white/70">
                     <User size={14} />
                   </div>
                 )}
@@ -186,14 +220,14 @@ export default function ChatWidget() {
             {/* Typing indicator */}
             {isTyping && (
               <div className="flex items-end gap-2">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#E11D2E]/15 text-[#F3D77A]">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center bg-[#E31B23]/15 text-[#E31B23]">
                   <Bot size={14} />
                 </div>
 
-                <div className="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-white/[0.06] px-4 py-3">
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:-0.3s]" />
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:-0.15s]" />
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400" />
+                <div className="flex items-center gap-1 border-l-2 border-[#E31B23] bg-white/[0.06] px-4 py-3">
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/60 [animation-delay:-0.3s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/60 [animation-delay:-0.15s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white/60" />
                 </div>
               </div>
             )}
@@ -206,7 +240,7 @@ export default function ChatWidget() {
                     key={reply}
                     type="button"
                     onClick={() => sendMessage(reply)}
-                    className={`rounded-full border border-[#E11D2E]/40 bg-[#E11D2E]/10 px-3 py-1.5 text-xs font-medium text-[#F3D77A] transition-colors hover:bg-[#E11D2E]/20 ${focusRing}`}
+                    className={`border border-[#E31B23]/60 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-[#E31B23] ${focusRing}`}
                   >
                     {reply}
                   </button>
@@ -218,7 +252,7 @@ export default function ChatWidget() {
           {/* Input */}
           <form
             onSubmit={handleSubmit}
-            className="flex items-center gap-2 border-t border-white/10 bg-[#0d1117] p-3"
+            className="flex items-center gap-2 border-t border-white/10 bg-[#141414] p-3"
           >
             <input
               type="text"
@@ -226,14 +260,14 @@ export default function ChatWidget() {
               onChange={(event) => setInput(event.target.value)}
               placeholder="Type your message..."
               aria-label="Type your message"
-              className={`flex-1 rounded-full border border-white/10 bg-black/40 px-4 py-2.5 text-sm text-white placeholder:text-zinc-500 ${focusRing}`}
+              className={`flex-1 border border-white/15 bg-[#0A0A0A] px-4 py-2.5 text-sm text-white placeholder:text-white/40 ${focusRing}`}
             />
 
             <button
               type="submit"
               aria-label="Send message"
               disabled={!input.trim()}
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E11D2E] text-black transition-all duration-200 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40 ${focusRing}`}
+              className={`chamfer flex h-10 w-10 shrink-0 items-center justify-center bg-[#E31B23] text-white transition-colors duration-200 hover:bg-[#B91C1C] disabled:cursor-not-allowed disabled:opacity-40 ${focusRing}`}
             >
               <Send size={16} strokeWidth={2.25} />
             </button>
@@ -246,7 +280,7 @@ export default function ChatWidget() {
         type="button"
         aria-label={isOpen ? "Close chat" : "Open chat"}
         onClick={() => (isOpen ? setIsOpen(false) : handleOpen())}
-        className={`relative flex h-14 w-14 items-center justify-center rounded-full bg-[#E11D2E] text-black shadow-[0_10px_30px_rgba(191,152,13,0.4)] transition-all duration-300 hover:scale-105 hover:shadow-[0_12px_35px_rgba(191,152,13,0.55)] ${focusRing}`}
+        className={`relative flex h-14 w-14 items-center justify-center rounded-full bg-[#E31B23] text-white shadow-[0_10px_30px_rgba(227,27,35,0.45)] transition-all duration-300 hover:scale-105 hover:bg-[#B91C1C] ${focusRing}`}
       >
         {isOpen ? (
           <X size={24} strokeWidth={2.25} />
@@ -255,8 +289,8 @@ export default function ChatWidget() {
         )}
 
         {hasUnread && !isOpen && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 ring-2 ring-[#080b0f]">
-            <span className="h-2 w-2 animate-ping rounded-full bg-red-400" />
+          <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-white ring-2 ring-[#0A0A0A]">
+            <span className="h-2 w-2 animate-ping rounded-full bg-[#E31B23]" />
           </span>
         )}
       </button>

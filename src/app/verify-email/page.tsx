@@ -110,9 +110,9 @@ function VerifyEmailForm() {
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-b from-[#0d0d0d] via-[#22293a] to-[#0a0a0a] px-4 py-16">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-b from-[#060606] via-[#111111] to-[#060606] px-4 py-16">
       <div className="pointer-events-none absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full bg-[#FFFFFF]/15 blur-[130px]" />
-      <div className="pointer-events-none absolute top-1/3 right-[-120px] h-[380px] w-[380px] rounded-full bg-[#E11D2E]/20 blur-[130px]" />
+      <div className="pointer-events-none absolute top-1/3 right-[-120px] h-[380px] w-[380px] rounded-full bg-[#FF2D2D]/20 blur-[130px]" />
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 opacity-[0.06]"
         style={{
@@ -128,10 +128,10 @@ function VerifyEmailForm() {
             href="/"
             className="inline-flex items-center gap-2 text-2xl font-black text-white"
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E11D2E]/15 text-[#E11D2E]">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
               <Car size={20} />
             </span>
-            Auto<span className="text-[#E11D2E]">Trade</span>
+            Auto<span className="text-[#FFFFFF]">Trade</span>
           </Link>
         </div>
 
@@ -139,7 +139,7 @@ function VerifyEmailForm() {
           onSubmit={handleSubmit}
           className="rounded-2xl border border-white/10 bg-[#111111]/70 p-6 text-center shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-8"
         >
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#E11D2E]/30 bg-[#E11D2E]/10 text-[#E11D2E]">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 text-[#FFFFFF]">
             <MailCheck size={22} />
           </div>
           <h1 className="text-lg font-bold text-white">Verify your email</h1>
@@ -149,12 +149,12 @@ function VerifyEmailForm() {
           </p>
 
           {error && (
-            <div className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+            <div className="mt-4 rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
               {error}
             </div>
           )}
           {notice && !error && (
-            <div className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+            <div className="mt-4 rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
               {notice}
             </div>
           )}
@@ -172,7 +172,7 @@ function VerifyEmailForm() {
                 value={digit}
                 onChange={(e) => handleDigitChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="h-12 w-11 rounded-xl border border-white/10 bg-[#0a0a0a]/60 text-center text-lg font-semibold text-white outline-none transition-colors focus:border-[#E11D2E]/60"
+                className="h-12 w-11 rounded-xl border border-white/10 bg-[#060606]/60 text-center text-lg font-semibold text-white outline-none transition-colors focus:border-[#FF2D2D]/60"
               />
             ))}
           </div>
@@ -180,7 +180,7 @@ function VerifyEmailForm() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#E11D2E] to-[#FF3344] py-3.5 text-sm font-bold text-white transition-all duration-300 hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FF2D2D] to-[#FF5A5A] py-3.5 text-sm font-bold text-white transition-all duration-300 hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading && <Loader2 size={16} className="animate-spin" />}
             {loading ? "Verifying..." : "Verify Email"}
@@ -190,7 +190,7 @@ function VerifyEmailForm() {
             type="button"
             onClick={handleResend}
             disabled={cooldown > 0}
-            className="mt-4 text-sm font-medium text-[#E11D2E] transition-colors hover:text-[#FF3344] disabled:cursor-not-allowed disabled:text-zinc-600"
+            className="mt-4 text-sm font-medium text-[#FFFFFF] transition-colors hover:text-[#FFFFFF] disabled:cursor-not-allowed disabled:text-zinc-600"
           >
             {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
           </button>
