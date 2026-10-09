@@ -19,7 +19,6 @@ export const MEDIA_BASE_URL =
   process.env.NEXT_PUBLIC_MEDIA_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
   (process.env.NODE_ENV === "production" ? "" : "http://localhost:8000");
-
 export interface ApiError extends Error {
   status?: number;
   errors?: Record<string, string[]> | null;
@@ -301,7 +300,11 @@ export const updateVehicle = (id: number, payload: VehiclePayload) =>
     method: "PUT",
     body: payload,
   });
-
+export const updateVehicleStatus = (id: number, status: Vehicle["status"]) =>
+  apiRequest<{ data: Vehicle }>(`/admin/vehicles/${id}/status`, {
+    method: "PATCH",
+    body: { status },
+  });
 export const deleteVehicle = (id: number) =>
   apiRequest(`/admin/vehicles/${id}`, { method: "DELETE" });
 
@@ -765,3 +768,20 @@ export const fetchPushSubscriberCount = () =>
   apiRequest<{ data: { subscribers: number } }>(
     "/admin/announcements/subscribers",
   );
+export const PRICE_FALLBACK = "Inquire for price";
+
+/** True only when the vehicle has a real, usable price. */
+export const hasPrice = (car: {
+  price?: string | null;
+  price_value?: number | null;
+}) => {
+  const value = Number(car.price_value);
+  const label = (car.price ?? "").trim().toLowerCase();
+  return (
+    Number.isFinite(value) &&
+    value > 0 &&
+    label !== "" &&
+    label !== "n/a" &&
+    label !== "na"
+  );
+};

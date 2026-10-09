@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import {
   AlertTriangle,
   Car,
+  ChevronDown,
   Loader2,
   Pencil,
   Plus,
@@ -17,6 +18,7 @@ import {
   deleteVehicle,
   fetchAdminVehicles,
   resolveMediaUrl,
+  updateVehicleStatus,
   type ApiError,
   type Vehicle,
 } from "@/lib/api";
@@ -30,7 +32,7 @@ const STATUS_FILTERS: Array<"All" | Vehicle["status"]> = [
 ];
 
 const STATUS_STYLES: Record<Vehicle["status"], string> = {
-  available: "bg-[#FF2D2D]/10 text-[#FFFFFF]",
+  available: "bg-[#D41F2D]/10 text-[#FF5C68]",
   reserved: "bg-zinc-500/15 text-zinc-300",
   sold: "bg-zinc-500/15 text-zinc-400",
 };
@@ -76,13 +78,13 @@ function Dialog({
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-[#060606]/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-[#040E21]/70 backdrop-blur-sm"
         onClick={() => {
           if (!busy) onClose();
         }}
       />
       {/* Panel */}
-      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#060606] p-6 shadow-2xl">
+      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#040E21] p-6 shadow-2xl">
         {children}
       </div>
     </div>,
@@ -110,7 +112,7 @@ function RowActions({
         onClick={() => onEdit(vehicle)}
         title="Edit"
         aria-label={`Edit ${vehicle.name}`}
-        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#FF2D2D]/50 hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF]"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#D41F2D]/50 hover:bg-[#D41F2D]/10 hover:text-[#FF5C68]"
       >
         <Pencil size={14} />
       </button>
@@ -119,10 +121,53 @@ function RowActions({
         onClick={() => onDelete(vehicle)}
         title="Delete"
         aria-label={`Delete ${vehicle.name}`}
-        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#FF2D2D]/50 hover:bg-[#FF2D2D]/10 hover:text-[#FFFFFF]"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:border-[#D41F2D]/50 hover:bg-[#D41F2D]/10 hover:text-[#FF5C68]"
       >
         <Trash2 size={14} />
       </button>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Inline status dropdown                                                    */
+/* -------------------------------------------------------------------------- */
+
+function StatusSelect({
+  vehicle,
+  updating,
+  onChange,
+}: {
+  vehicle: Vehicle;
+  updating: boolean;
+  onChange: (v: Vehicle, status: Vehicle["status"]) => void;
+}) {
+  return (
+    <div className="relative inline-flex items-center">
+      <select
+        value={vehicle.status}
+        disabled={updating}
+        onChange={(e) => onChange(vehicle, e.target.value as Vehicle["status"])}
+        aria-label={`Change status of ${vehicle.name}`}
+        className={`cursor-pointer appearance-none rounded-full border-0 py-1 pl-2.5 pr-7 text-xs font-medium outline-none transition-opacity focus:ring-1 focus:ring-[#D41F2D]/60 disabled:cursor-wait disabled:opacity-60 ${STATUS_STYLES[vehicle.status]}`}
+      >
+        {(Object.keys(STATUS_LABELS) as Vehicle["status"][]).map((s) => (
+          <option key={s} value={s} className="bg-[#040E21] text-white">
+            {STATUS_LABELS[s]}
+          </option>
+        ))}
+      </select>
+      {updating ? (
+        <Loader2
+          size={12}
+          className="pointer-events-none absolute right-2 animate-spin"
+        />
+      ) : (
+        <ChevronDown
+          size={12}
+          className="pointer-events-none absolute right-2 opacity-70"
+        />
+      )}
     </div>
   );
 }
@@ -151,6 +196,9 @@ export default function ShowroomClient({
   const [deleteTarget, setDeleteTarget] = useState<Vehicle | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
+
+  // Inline status update state
+  const [statusUpdatingId, setStatusUpdatingId] = useState<number | null>(null);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -209,6 +257,32 @@ export default function ShowroomClient({
     }
   }
 
+  async function changeStatus(vehicle: Vehicle, status: Vehicle["status"]) {
+    if (vehicle.status === status) return;
+
+    const previous = vehicle.status;
+    setStatusUpdatingId(vehicle.id);
+    setError("");
+
+    // Optimistic update
+    setVehicles((prev) =>
+      prev.map((v) => (v.id === vehicle.id ? { ...v, status } : v)),
+    );
+
+    try {
+      const { data } = await updateVehicleStatus(vehicle.id, status);
+      setVehicles((prev) => prev.map((v) => (v.id === data.id ? data : v)));
+    } catch (err) {
+      // Roll back
+      setVehicles((prev) =>
+        prev.map((v) => (v.id === vehicle.id ? { ...v, status: previous } : v)),
+      );
+      setError((err as ApiError).message || "Failed to update status.");
+    } finally {
+      setStatusUpdatingId(null);
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -220,7 +294,7 @@ export default function ShowroomClient({
         </div>
         <button
           onClick={() => setDrawerVehicle(null)}
-          className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FF2D2D] to-[#FF5A5A] px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-105"
+          className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#D41F2D] to-[#E8404B] px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-105"
         >
           <Plus size={16} />
           Add vehicle
@@ -238,7 +312,7 @@ export default function ShowroomClient({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by model or type..."
-            className="w-full rounded-xl border border-white/10 bg-[#111111]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#FF2D2D]/60"
+            className="w-full rounded-xl border border-white/10 bg-[#071A38]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none focus:border-[#D41F2D]/60"
           />
         </div>
 
@@ -253,7 +327,7 @@ export default function ShowroomClient({
               onClick={() => setStatusFilter(status)}
               className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium capitalize transition-colors ${
                 statusFilter === status
-                  ? "bg-[#FF2D2D]/15 text-[#FFFFFF]"
+                  ? "bg-[#D41F2D]/15 text-[#FF5C68]"
                   : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
               }`}
             >
@@ -264,14 +338,14 @@ export default function ShowroomClient({
       </div>
 
       {error && (
-        <div className="rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
+        <div className="rounded-xl border border-[#D41F2D]/30 bg-[#D41F2D]/10 px-4 py-3 text-sm text-[#FF5C68]">
           {error}
         </div>
       )}
 
       {loading ? (
-        <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-[#111111]/70 py-16 text-sm text-zinc-400">
-          <Loader2 size={18} className="mr-2 animate-spin text-[#FFFFFF]" />
+        <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-[#071A38]/70 py-16 text-sm text-zinc-400">
+          <Loader2 size={18} className="mr-2 animate-spin text-[#FF5C68]" />
           Loading vehicles...
         </div>
       ) : (
@@ -281,7 +355,7 @@ export default function ShowroomClient({
           </p>
 
           {/* Desktop table */}
-          <div className="hidden overflow-hidden rounded-2xl border border-white/10 bg-[#111111]/70 lg:block">
+          <div className="hidden overflow-hidden rounded-2xl border border-white/10 bg-[#071A38]/70 lg:block">
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-zinc-500">
@@ -302,7 +376,7 @@ export default function ShowroomClient({
                   >
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#D41F2D]/15 text-[#FF5C68]">
                           {v.image ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
@@ -325,11 +399,11 @@ export default function ShowroomClient({
                     <td className="px-5 py-3 text-zinc-400">{v.mileage}</td>
                     <td className="px-5 py-3 text-zinc-400">{v.stock}</td>
                     <td className="px-5 py-3">
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[v.status]}`}
-                      >
-                        {STATUS_LABELS[v.status]}
-                      </span>
+                      <StatusSelect
+                        vehicle={v}
+                        updating={statusUpdatingId === v.id}
+                        onChange={changeStatus}
+                      />
                     </td>
                     <td className="px-5 py-3">
                       <RowActions
@@ -359,11 +433,11 @@ export default function ShowroomClient({
             {filtered.map((v) => (
               <div
                 key={v.id}
-                className="rounded-2xl border border-white/10 bg-[#111111]/70 p-4"
+                className="rounded-2xl border border-white/10 bg-[#071A38]/70 p-4"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#FF2D2D]/15 text-[#FFFFFF]">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#D41F2D]/15 text-[#FF5C68]">
                       {v.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -393,11 +467,11 @@ export default function ShowroomClient({
 
                 <div className="mt-4 flex items-center justify-between text-sm">
                   <span className="font-semibold text-white">{v.price}</span>
-                  <span
-                    className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[v.status]}`}
-                  >
-                    {STATUS_LABELS[v.status]}
-                  </span>
+                  <StatusSelect
+                    vehicle={v}
+                    updating={statusUpdatingId === v.id}
+                    onChange={changeStatus}
+                  />
                 </div>
 
                 <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
@@ -407,7 +481,7 @@ export default function ShowroomClient({
               </div>
             ))}
             {filtered.length === 0 && (
-              <div className="col-span-full rounded-2xl border border-white/10 bg-[#111111]/70 py-10 text-center text-sm text-zinc-500">
+              <div className="col-span-full rounded-2xl border border-white/10 bg-[#071A38]/70 py-10 text-center text-sm text-zinc-500">
                 No vehicles match your search.
               </div>
             )}
@@ -423,7 +497,7 @@ export default function ShowroomClient({
           busy={deleting}
         >
           <div className="flex items-start gap-4">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FF2D2D]/10 text-[#FFFFFF]">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#D41F2D]/10 text-[#FF5C68]">
               <AlertTriangle size={20} />
             </span>
             <div className="min-w-0">
@@ -439,7 +513,7 @@ export default function ShowroomClient({
           </div>
 
           {deleteError && (
-            <div className="mt-4 rounded-xl border border-[#FF2D2D]/30 bg-[#FF2D2D]/10 px-4 py-3 text-sm text-[#FFFFFF]">
+            <div className="mt-4 rounded-xl border border-[#D41F2D]/30 bg-[#D41F2D]/10 px-4 py-3 text-sm text-[#FF5C68]">
               {deleteError}
             </div>
           )}
@@ -457,7 +531,7 @@ export default function ShowroomClient({
               type="button"
               onClick={confirmDelete}
               disabled={deleting}
-              className="flex items-center justify-center gap-2 rounded-full bg-[#FF2D2D] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#FF2D2D] disabled:opacity-60"
+              className="flex items-center justify-center gap-2 rounded-full bg-[#D41F2D] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#D41F2D] disabled:opacity-60"
             >
               {deleting ? (
                 <>
