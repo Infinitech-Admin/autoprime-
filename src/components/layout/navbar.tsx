@@ -8,6 +8,9 @@ import { useCart } from "@/context/cart-context";
 import UserMenu from "@/components/layout/user-menu";
 import NotificationBell from "@/components/layout/notification-bell";
 import { Wordmark } from "@/components/layout/wordmark";
+import LanguageSwitcher, {
+  GoogleTranslateLoader,
+} from "@/components/layout/language-switcher";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -135,6 +138,9 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Loads the Google Translate engine (hidden). Mount once. */}
+      <GoogleTranslateLoader />
+
       {/* Always solid dark, with a red line underneath */}
       <header className="sticky top-0 z-50 border-b-2 border-[#E31B23] bg-[#0A0A0A]">
         <nav
@@ -172,7 +178,7 @@ export default function Navbar() {
               })}
             </div>
 
-            {/* RIGHT SIDE: INSTALL + BELL + CART + ACCOUNT + MOBILE MENU */}
+            {/* RIGHT SIDE: INSTALL + LANGUAGE + BELL + CART + ACCOUNT + MOBILE MENU */}
             <div className="flex shrink-0 items-center gap-2 lg:ml-0">
               {/* Install App */}
               {canInstall && (
@@ -185,6 +191,9 @@ export default function Navbar() {
                   Install App
                 </button>
               )}
+
+              {/* Language (hidden below sm; mobile uses the drawer version) */}
+              <LanguageSwitcher variant="header" focusRing={focusRing} />
 
               {/* Announcement notifications */}
               <NotificationBell
@@ -282,6 +291,13 @@ export default function Navbar() {
                 Install App
               </button>
             )}
+
+            {/* Language (mobile) */}
+            <LanguageSwitcher
+              variant="drawer"
+              focusRing={focusRing}
+              className="mb-6"
+            />
 
             {/* Navigation */}
             <nav>
