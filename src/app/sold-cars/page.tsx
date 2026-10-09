@@ -20,6 +20,7 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import {
   MEDIA_BASE_URL,
+  PRICE_FALLBACK,
   fetchSoldVehicles,
   hasPrice,
   isAbortError,
@@ -97,7 +98,8 @@ export default function SoldCarsPage() {
     setLoadError(null);
     try {
       const { data } = await fetchSoldVehicles({ signal });
-      setVehicles(data ?? []); // API already returns sold cars only
+      // Keep only sold cars, even if the endpoint returns more than that.
+      setVehicles((data ?? []).filter((v) => v.status === "sold"));
       setIsLoading(false);
     } catch (err) {
       if (isAbortError(err)) return;
@@ -407,7 +409,7 @@ export default function SoldCarsPage() {
                       return (
                         <article
                           key={car.id}
-                          className="group flex h-full flex-col overflow-hidden border border-white/10 border-t-2 border-t-transparent bg-[#1C1C1C] transition-colors hover:border-t-[#E11D2E]"
+                          className="group flex h-full cursor-default flex-col overflow-hidden border border-white/10 border-t-2 border-t-transparent bg-[#1C1C1C] transition-colors hover:border-t-[#E11D2E]"
                         >
                           {/* Photo with SOLD stamp */}
                           <div className="relative overflow-hidden bg-[#ECECEC] p-3">
@@ -441,14 +443,19 @@ export default function SoldCarsPage() {
                               {car.name}
                             </h2>
 
-                            {showPrice && (
-                              <p className="mt-2 text-sm text-white/60">
-                                Sold at{" "}
-                                <span className="text-lg font-black text-white">
-                                  {car.price}
-                                </span>
-                              </p>
-                            )}
+                            {SHOW_PRICE &&
+                              (showPrice ? (
+                                <p className="mt-2 text-sm text-white/60">
+                                  Sold at{" "}
+                                  <span className="text-lg font-black text-white">
+                                    {car.price}
+                                  </span>
+                                </p>
+                              ) : (
+                                <p className="mt-2 text-sm text-white/50">
+                                  {PRICE_FALLBACK}
+                                </p>
+                              ))}
 
                             <dl className="mt-4 grid grid-cols-2 divide-x divide-white/10 border-y border-white/10 text-sm">
                               <div className="min-w-0 py-3 pr-3">

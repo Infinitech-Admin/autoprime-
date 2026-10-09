@@ -66,7 +66,7 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white">
       {/* CALL TO ACTION */}
-      <div className="bg-[#8F1117]">
+      {/* <div className="bg-[#8F1117]">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-10 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div className="border-l-8 border-white pl-5">
             <h2 className="text-3xl font-black uppercase leading-none sm:text-4xl">
@@ -100,7 +100,7 @@ export default function Footer() {
             ) : null}
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div aria-hidden="true" className="tread" />
 
